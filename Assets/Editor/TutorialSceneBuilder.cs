@@ -425,8 +425,15 @@ public static class TutorialSceneBuilder
         visual.transform.SetParent(root.transform, false);
         FitVehicle(visual.transform, Vector3.zero, 0f, 4.5f);
 
-        root.AddComponent<CarInput>();
+        var carInput = root.AddComponent<CarInput>();
+        carInput.profile = ControlProfileKind.Auto;
+        carInput.steerAxisCandidates = new[] { "Stick X", "Stick X2" };
+        carInput.throttleAxisCandidates = new[] { "Stick Y", "Stick Y2" };
         root.AddComponent<CarController>();
+
+        var diag = root.AddComponent<InputDiagnostics>();
+        diag.input = carInput;
+        diag.startVisible = false;
 
         var rb = root.AddComponent<Rigidbody>();
         rb.isKinematic = true;

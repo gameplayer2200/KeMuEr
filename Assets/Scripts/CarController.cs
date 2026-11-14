@@ -27,23 +27,46 @@ public class CarController : MonoBehaviour
     public float bodyHalfLength = 2.2f;     // 车身半长
 
     [Header("状态（只读）")]
+    [Tooltip("硬件反馈（档位 LED / 震动）。没有硬件时留空即可，内部用 NullDrivingFeedback 兜底。")]
+    public MonoBehaviour feedbackSource;
+
+    IDrivingFeedback _feedback = NullDrivingFeedback.Instance;
+
+    // 手刹拉住还踩油门时的熄火抖动节奏控制
+    float _lastStallPulse = -1f;
+
     public DriveGear Gear = DriveGear.Drive;
     public float Speed { get; private set; }          // m/s，带符号
     public float SpeedKmh { get { return Mathf.Abs(Speed) * 3.6f; } }
     public float SteerAngleDeg { get; private set; }
     public bool CanShift { get { return Mathf.Abs(Speed) <= shiftSpeedLimit; } }
 
-    CarInput _input;
+    CarInput _input;          // 场景里的具体实现（保留以便 Inspector 序列化）
+    IDrivingInput _driving;   // EA 期换输入源时只换这个，逻辑不变
 
     void Awake()
     {
         _input = GetComponent<CarInput>();
+        _driving = _input as IDrivingInput;
+
+        if (feedbackSource is IDrivingFeedback fb) _feedback = fb;
+        else _feedback = NullDrivingFeedback.Instance;
+
+        _feedback.OnGearChanged(Gear);
+    }
+
+    /// <summary>运行时替换输入源（EA 期接 Input System 时用）。</summary>
+    public void SetDrivingInput(IDrivingInput source)
+    {
+        _driving = source;
     }
 
     void Update()
     {
-        if (_input.ConsumeDrive()) TryShift(DriveGear.Drive);
-        if (_input.ConsumeReverse()) TryShift(DriveGear.Reverse);
+        if (_driving == null) return;
+
+        if (_driving.ConsumeDrive()) TryShift(DriveGear.Drive);
+        if (_driving.ConsumeReverse()) TryShift(DriveGear.Reverse);
 
         float dt = Mathf.Min(Time.deltaTime, 0.05f);
         UpdateSteering(dt);
@@ -53,40 +76,84 @@ public class CarController : MonoBehaviour
 
     void UpdateSteering(float dt)
     {
-        float target = _input.Steer * maxSteerDeg;
+        float target = _driving.Steer * maxSteerDeg;
         float k = 1f - Mathf.Exp(-dt / Mathf.Max(0.001f, steerResponse));
         SteerAngleDeg = Mathf.Lerp(SteerAngleDeg, target, k);
     }
 
+    /// <summary>
+    /// 速度更新。三条约束决定了挡位必须有用：
+    ///   1) 油门只把车往「当前挡位的方向」推；
+    ///   2) 刹车只把速度拉回 0，绝不越过 0 —— 摇杆往后推是刹车，不是倒车；
+    ///   3) 想后退只能挂 R 挡，想前进只能挂 1 挡。
+    /// 上一版把刹车当成负加速度直接叠加，速度会被推成负值，于是 1 挡下拉一下摇杆车就倒着走，换挡形同虚设。
+    /// </summary>
     void UpdateSpeed(float dt)
     {
-        float accel = 0f;
+        float speed = Speed;
 
-        if (Gear == DriveGear.Drive)
+        // ---- 1) 动力：只朝挡位方向推；手刹拉住时动力被彻底切断 ----
+        // 不能只靠"手刹的减速度比油门大"来压住 —— 那样调参就破。
+        // 教学关要的就是"灯亮着，车不走"，所以这里是从逻辑上禁掉。
+        float powerDir = Gear == DriveGear.Drive ? 1f
+                       : Gear == DriveGear.Reverse ? -1f
+                       : 0f;
+
+        bool engineCut = _driving.Handbrake;   // 手刹 = 离合断开，油门空转
+
+        if (powerDir != 0f && _driving.Throttle > 0f && !engineCut)
         {
-            accel += _input.Throttle * engineAccel;
-            accel -= _input.Brake * brakeDecel;
-        }
-        else if (Gear == DriveGear.Reverse)
-        {
-            accel -= _input.Throttle * engineAccel * 0.85f;
-            accel += _input.Brake * brakeDecel;
+            float power = _driving.Throttle * engineAccel * dt;
+            if (Gear == DriveGear.Reverse) power *= 0.85f;
+            speed = Advance(speed, powerDir * power);
         }
 
-        if (_input.Handbrake)
-            accel -= Mathf.Sign(Speed) * brakeDecel * 1.2f;
+        // ---- 2) 刹车：只减到 0，不反向 ----
+        if (_driving.Brake > 0f)
+            speed = TowardZero(speed, _driving.Brake * brakeDecel * dt);
 
-        float next = Speed + accel * dt;
+        // ---- 3) 手刹：同样只减到 0 ----
+        if (_driving.Handbrake)
+            speed = TowardZero(speed, brakeDecel * 1.2f * dt);
 
-        // 自然滚阻，且不允许被阻力推着反向
+        // ---- 4) 自然滚阻 ----
         float drag = rollingDecel * dt * (Gear == DriveGear.Neutral ? 2f : 1f);
-        if (Mathf.Abs(next) <= drag) next = 0f;
-        else next -= Mathf.Sign(next) * drag;
+        speed = TowardZero(speed, drag);
 
-        Speed = Mathf.Clamp(next, -maxReverseSpeed, maxForwardSpeed);
+        Speed = Mathf.Clamp(speed, -maxReverseSpeed, maxForwardSpeed);
 
         // 手刹静止时彻底锁死
-        if (_input.Handbrake && Mathf.Abs(Speed) < 0.05f) Speed = 0f;
+        if (_driving.Handbrake && Mathf.Abs(Speed) < 0.05f) Speed = 0f;
+
+        // 手刹拉住还在踩油门 = 熄火抖动。不用任何文字提示，让手上/画面上有感觉。
+        bool stalling = engineCut && _driving.Throttle > 0.05f && Mathf.Abs(Speed) < 0.05f;
+        if (stalling && Time.time - _lastStallPulse > 0.35f)
+        {
+            _lastStallPulse = Time.time;
+            _feedback.Pulse(90f);
+        }
+    }
+
+    /// <summary>朝 delta 的方向推进；若会跨过 0 就停在 0（退着的车不会被油门推成前进）。</summary>
+    static float Advance(float speed, float delta)
+    {
+        if (Mathf.Approximately(delta, 0f)) return speed;
+
+        float next = speed + delta;
+
+        if (!Mathf.Approximately(speed, 0f) &&
+            Mathf.Sign(delta) != Mathf.Sign(speed) &&
+            Mathf.Sign(next) != Mathf.Sign(speed))
+            return 0f;
+
+        return next;
+    }
+
+    /// <summary>把速度朝 0 拉，最多拉到 0，永不推到反方向。</summary>
+    static float TowardZero(float speed, float amount)
+    {
+        if (amount <= 0f || Mathf.Approximately(speed, 0f)) return speed;
+        return Mathf.Abs(speed) <= amount ? 0f : speed - Mathf.Sign(speed) * amount;
     }
 
     void UpdatePose(float dt)
@@ -101,6 +168,7 @@ public class CarController : MonoBehaviour
         {
             // 撞上障碍物：这一次位移整个作废，速度归零
             Speed = 0f;
+            _feedback.Pulse(180f);
             return;
         }
 
@@ -126,8 +194,13 @@ public class CarController : MonoBehaviour
     void TryShift(DriveGear target)
     {
         if (target == Gear) return;
-        if (!CanShift) return;   // 车在动的时候换挡无效
+        if (!CanShift)
+        {
+            _feedback.Pulse(80f);   // 车还在动，换挡被拒绝 —— 让手上有感觉
+            return;
+        }
         Gear = target;
+        _feedback.OnGearChanged(Gear);
     }
 
     public void ResetToPose(Vector3 position, Quaternion rotation)

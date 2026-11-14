@@ -21,9 +21,10 @@ public class TutorialDirector : MonoBehaviour
     public Transform startPoint;
     public TutorialWaypoint[] waypoints = new TutorialWaypoint[0];
 
-    [Header("按键")]
+    [Tooltip("已废弃：回起点改由 CarInput 统一处理。保留字段只为兼容旧场景。")]
     public KeyCode resetKey = KeyCode.Backspace;
 
+    CarInput _input;
     int _stage;
     float _holdTimer;
     int _conesHit;
@@ -31,8 +32,34 @@ public class TutorialDirector : MonoBehaviour
     string _toast = "";
     float _toastUntil;
 
-    void OnEnable() { ConeKnock.Knocked += OnConeKnocked; }
-    void OnDisable() { ConeKnock.Knocked -= OnConeKnocked; }
+    void OnEnable()
+    {
+        ConeKnock.Knocked += OnConeKnocked;
+        ResolveInput();
+    }
+
+    void OnDisable()
+    {
+        ConeKnock.Knocked -= OnConeKnocked;
+        if (_input != null) _input.OnAction -= OnCarAction;
+        _input = null;
+    }
+
+    void ResolveInput()
+    {
+        if (_input == null && car != null) _input = car.GetComponent<CarInput>();
+        if (_input == null) _input = FindObjectOfType<CarInput>();
+        if (_input != null)
+        {
+            _input.OnAction -= OnCarAction;   // 防重复订阅
+            _input.OnAction += OnCarAction;
+        }
+    }
+
+    void OnCarAction(CarAction action)
+    {
+        if (action == CarAction.Reset) Restart();
+    }
 
     void OnConeKnocked(ConeKnock cone)
     {
@@ -43,12 +70,7 @@ public class TutorialDirector : MonoBehaviour
     void Update()
     {
         if (car == null) return;
-
-        if (Input.GetKeyDown(resetKey))
-        {
-            Restart();
-            return;
-        }
+        if (_input == null) ResolveInput();
 
         // 编辑器调试：F8 直接把车挪到当前路点（打包后不存在）
 #if UNITY_EDITOR
@@ -178,14 +200,12 @@ public class TutorialDirector : MonoBehaviour
         GUI.Label(new Rect(card.x + 18f, card.y + 48f, card.width - 36f, 72f), body, _bodyStyle);
 
         // ---- 左下操作说明 ----
-        Rect help = new Rect(24f, Screen.height - 178f, 470f, 154f);
+        Rect help = new Rect(24f, Screen.height - 196f, 494f, 172f);
         DrawPanel(help, new Color(0.04f, 0.05f, 0.07f, 0.72f));
         GUI.Label(new Rect(help.x + 16f, help.y + 8f, 440f, 26f), "操作", _titleStyle);
-        GUI.Label(new Rect(help.x + 16f, help.y + 40f, 440f, 110f),
-            "W / 摇杆上推 = 油门        S / 摇杆下拉 = 刹车\n" +
-            "A D / 摇杆左右 = 方向盘    R 红键 = 倒挡\n" +
-            "1 绿键 = 前进挡            空格 黄键 = 手刹\n" +
-            "Q / 摇杆按下 = 切换视角    退格 = 回到 A 点", _smallStyle);
+        var helpStyle = new GUIStyle(_smallStyle) { fontSize = 12 };
+        GUI.Label(new Rect(help.x + 16f, help.y + 36f, 470f, 132f),
+            CarInputMap.HelpLines(_input), helpStyle);
 
         // ---- 右上仪表 ----
         if (car != null)
