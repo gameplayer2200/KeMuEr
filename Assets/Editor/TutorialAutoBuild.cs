@@ -5,13 +5,14 @@ using UnityEngine;
 
 /// <summary>
 /// 第一次把脚本交给 Unity 时，自动把第一关教学场景生成出来（只做一次）。
-/// 生成过就写一个标记，之后不会覆盖你手改过的场景。
+/// 场景文件已存在就不再自动重建，生成过也会写一个持久标记。
 /// 想重新生成：菜单 科目二 / 生成第一关教学场景
 /// </summary>
 [InitializeOnLoad]
 public static class TutorialAutoBuild
 {
-    const string Marker = "Temp/KeMuEr_TutorialBuilt.txt";
+    // 放 ProjectSettings 里，Unity 不会清空（原来放 Temp/ 每次关 Unity 都被删，导致每次启动都重建覆盖手改）
+    const string Marker = "ProjectSettings/KeMuEr_TutorialBuilt.marker";
 
     static TutorialAutoBuild()
     {
@@ -22,6 +23,8 @@ public static class TutorialAutoBuild
     {
         if (Application.isPlaying) return;
         if (File.Exists(Marker)) return;
+        // 场景已存在（包括手改过的版本）就绝不自动重建，想重建走菜单
+        if (File.Exists(TutorialSceneBuilder.ScenePath)) return;
 
         if (EditorApplication.isCompiling || EditorApplication.isUpdating)
         {
@@ -35,10 +38,7 @@ public static class TutorialAutoBuild
 
         if (TutorialSceneBuilder.Build())
         {
-            Directory.CreateDirectory("Temp");
             File.WriteAllText(Marker, System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
         }
     }
 }
-
-// rebuild trigger 1794634051
