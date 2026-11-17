@@ -431,10 +431,6 @@ public static class TutorialSceneBuilder
         carInput.throttleAxisCandidates = new[] { "Stick Y", "Stick Y2" };
         root.AddComponent<CarController>();
 
-        var diag = root.AddComponent<InputDiagnostics>();
-        diag.input = carInput;
-        diag.startVisible = false;
-
         var rb = root.AddComponent<Rigidbody>();
         rb.isKinematic = true;
         rb.useGravity = false;

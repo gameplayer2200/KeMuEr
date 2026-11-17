@@ -17,9 +17,15 @@ public class TutorialWaypoint
 /// </summary>
 public class TutorialDirector : MonoBehaviour
 {
+    /// <summary>第一关跑完时触发。科目二流程订阅它，把车 TP 到考试路线起点。</summary>
+    public static event System.Action Completed;
+
     public CarController car;
     public Transform startPoint;
     public TutorialWaypoint[] waypoints = new TutorialWaypoint[0];
+
+    /// <summary>第一关是否已经跑完。</summary>
+    public bool IsComplete { get { return _done; } }
 
     [Tooltip("已废弃：回起点改由 CarInput 统一处理。保留字段只为兼容旧场景。")]
     public KeyCode resetKey = KeyCode.Backspace;
@@ -116,6 +122,7 @@ public class TutorialDirector : MonoBehaviour
         {
             _done = true;
             ShowToast("第一关完成！你已经学会起步、直行、转向和停车了。");
+            if (Completed != null) Completed();
         }
     }
 
@@ -128,6 +135,12 @@ public class TutorialDirector : MonoBehaviour
         if (startPoint != null && car != null)
             car.ResetToPose(startPoint.position, startPoint.rotation);
         ShowToast("已回到 A 点");
+    }
+
+    /// <summary>选关菜单跳回第一关时调用：重置教学流程并把车放回起点。</summary>
+    public void RestartFromMenu()
+    {
+        Restart();
     }
 
     void ShowToast(string message)
@@ -167,12 +180,22 @@ public class TutorialDirector : MonoBehaviour
         _bigStyle.normal.textColor = new Color(0.55f, 1f, 0.55f);
     }
 
+    /// <summary>第一关跑完、科目二接管后，第一关的 HUD 就不再画，避免两块卡片叠在一起。</summary>
+    bool HandOverToExam()
+    {
+        return Km2RouteDirector.ExamActive;
+    }
+
     void OnGUI()
     {
         EnsureStyles();
 
+        // 科目二接管后，第一关的 HUD 全部让位，避免两块面板重叠
+        if (HandOverToExam()) return;
+
         // ---- 顶部任务卡 ----
-        float cardW = 620f, cardH = 132f;
+        float cardW = Mathf.Min(620f, Screen.width - 48f);
+        float cardH = 132f;
         Rect card = new Rect(24f, 24f, cardW, cardH);
         DrawPanel(card, new Color(0.04f, 0.05f, 0.07f, 0.80f));
 
@@ -200,11 +223,14 @@ public class TutorialDirector : MonoBehaviour
         GUI.Label(new Rect(card.x + 18f, card.y + 48f, card.width - 36f, 72f), body, _bodyStyle);
 
         // ---- 左下操作说明 ----
-        Rect help = new Rect(24f, Screen.height - 196f, 494f, 172f);
+        float helpH = 172f;
+        float helpY = Screen.height - helpH - 24f;
+        if (helpY < card.y + cardH + 12f) helpY = Mathf.Max(0f, Screen.height - helpH);
+        Rect help = new Rect(24f, helpY, Mathf.Min(494f, Screen.width - 48f), helpH);
         DrawPanel(help, new Color(0.04f, 0.05f, 0.07f, 0.72f));
         GUI.Label(new Rect(help.x + 16f, help.y + 8f, 440f, 26f), "操作", _titleStyle);
         var helpStyle = new GUIStyle(_smallStyle) { fontSize = 12 };
-        GUI.Label(new Rect(help.x + 16f, help.y + 36f, 470f, 132f),
+        GUI.Label(new Rect(help.x + 16f, help.y + 36f, help.width - 24f, 132f),
             CarInputMap.HelpLines(_input), helpStyle);
 
         // ---- 右上仪表 ----

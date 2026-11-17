@@ -16,7 +16,6 @@ public interface IDrivingInput
 
     // ---- 状态 ----
     bool Handbrake { get; }
-    bool TurnSignalOn { get; }
 
     // ---- 自检信息 ----
     bool JoystickAxesOk { get; }

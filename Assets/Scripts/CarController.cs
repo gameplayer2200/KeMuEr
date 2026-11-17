@@ -26,6 +26,18 @@ public class CarController : MonoBehaviour
     public float bodyHeight = 1.55f;        // 车身高度
     public float bodyHalfLength = 2.2f;     // 车身半长
 
+    [Header("坡道跟随")]
+    [Tooltip("坡道碰撞体所在层（Ramp 层，默认 9）。")]
+    public LayerMask rampMask = 1 << 9;
+    [Tooltip("坡道模型自身最低路面高度，标定用：把模型高度换算成相对平地的高差。")]
+    public float rampCalibrationY = 2.18f;
+    [Tooltip("车身高度跟随坡面的响应速度（越大越贴地，越小越软）。")]
+    public float groundFollowSpeed = 10f;
+    [Tooltip("是否让车身俯仰跟随坡度。")]
+    public bool alignToSlope = true;
+    [Tooltip("俯仰角度上限，防止模型边缘把车身翻过去。")]
+    public float maxSlopeDeg = 25f;
+
     [Header("状态（只读）")]
     [Tooltip("硬件反馈（档位 LED / 震动）。没有硬件时留空即可，内部用 NullDrivingFeedback 兜底。")]
     public MonoBehaviour feedbackSource;
@@ -41,6 +53,11 @@ public class CarController : MonoBehaviour
     public float SteerAngleDeg { get; private set; }
     public bool CanShift { get { return Mathf.Abs(Speed) <= shiftSpeedLimit; } }
 
+    // 平地基准高度与坡道探针状态
+    float _baseY;
+    float _frontY, _rearY;
+    bool _hasFront, _hasRear;
+
     CarInput _input;          // 场景里的具体实现（保留以便 Inspector 序列化）
     IDrivingInput _driving;   // EA 期换输入源时只换这个，逻辑不变
 
@@ -48,6 +65,7 @@ public class CarController : MonoBehaviour
     {
         _input = GetComponent<CarInput>();
         _driving = _input as IDrivingInput;
+        _baseY = transform.position.y;
 
         if (feedbackSource is IDrivingFeedback fb) _feedback = fb;
         else _feedback = NullDrivingFeedback.Instance;
@@ -158,6 +176,8 @@ public class CarController : MonoBehaviour
 
     void UpdatePose(float dt)
     {
+        UpdateGroundFollow(dt);
+
         if (Mathf.Abs(Speed) < 0.001f) return;
 
         float yawRateDeg = Speed * Mathf.Tan(SteerAngleDeg * Mathf.Deg2Rad) / wheelbase * Mathf.Rad2Deg;
@@ -174,6 +194,57 @@ public class CarController : MonoBehaviour
 
         transform.Rotate(0f, yawStep, 0f, Space.World);
         transform.position += step;
+    }
+
+    /// <summary>
+    /// 坡道跟随：车是 kinematic、不靠重力，所以高度完全由这里决定。
+    /// 用两根前/后探针去探坡道表面，算出高度和俯仰角，再平滑贴上去。
+    /// 探针打不到坡道（平地）时目标高度就是 baseY，俯仰归零。
+    /// </summary>
+    void UpdateGroundFollow(float dt)
+    {
+        float probe = bodyHalfLength * 0.8f;
+
+        float hFront, hRear;
+        bool gotFront = ProbeRampHeight(transform.position + transform.forward * probe, out hFront);
+        bool gotRear  = ProbeRampHeight(transform.position - transform.forward * probe, out hRear);
+
+        if (gotFront) _frontY = hFront;
+        if (gotRear)  _rearY  = hRear;
+        _hasFront = gotFront;
+        _hasRear  = gotRear;
+
+        float targetY = _baseY;
+        float targetPitch = 0f;
+
+        if (_hasFront && _hasRear)
+        {
+            targetY = Mathf.Max(_frontY, _rearY);
+            targetPitch = -Mathf.Atan2(_frontY - _rearY, probe * 2f) * Mathf.Rad2Deg;
+        }
+        else if (_hasFront) targetY = _frontY;
+        else if (_hasRear)  targetY = _rearY;
+
+        targetPitch = Mathf.Clamp(targetPitch, -maxSlopeDeg, maxSlopeDeg);
+
+        float k = 1f - Mathf.Exp(-dt * Mathf.Max(0.001f, groundFollowSpeed));
+        Vector3 p = transform.position;
+        p.y = Mathf.Lerp(p.y, targetY, k);
+        transform.position = p;
+
+        Quaternion desired = Quaternion.Euler(alignToSlope ? targetPitch : 0f, transform.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, desired, k);
+    }
+
+    bool ProbeRampHeight(Vector3 worldPos, out float y)
+    {
+        y = 0f;
+        RaycastHit hit;
+        Vector3 origin = new Vector3(worldPos.x, _baseY + 30f, worldPos.z);
+        if (!Physics.Raycast(origin, Vector3.down, out hit, 60f, rampMask, QueryTriggerInteraction.Ignore))
+            return false;
+        y = Mathf.Max(_baseY, hit.point.y - rampCalibrationY + _baseY);
+        return true;
     }
 
     /// <summary>沿位移方向扫一个车身大小的盒子，判断这一帧会不会穿进障碍物。</summary>
@@ -209,5 +280,7 @@ public class CarController : MonoBehaviour
         SteerAngleDeg = 0f;
         Gear = DriveGear.Drive;
         transform.SetPositionAndRotation(position, rotation);
+        _baseY = position.y;
+        _hasFront = _hasRear = false;
     }
 }

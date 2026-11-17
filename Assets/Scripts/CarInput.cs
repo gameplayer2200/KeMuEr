@@ -39,10 +39,8 @@ public class CarInput : MonoBehaviour, IDrivingInput
     public int buttonReverse = 0;     // 红
     public int buttonDrive = 1;       // 绿
     public int buttonHandbrake = 2;   // 黄
-    public int buttonSignal = 3;      // 蓝
+    public int buttonReset = 3;       // 蓝 → 复位（科目二回当前科目起点）
     public int buttonCamera = 4;      // 摇杆按下
-    public int buttonReset = -1;      // 未绑定
-    public int buttonHelp = -1;       // 未绑定
 
     [Header("手感参数")]
     [Range(0f, 0.3f)] public float deadzone = 0.08f;
@@ -55,8 +53,6 @@ public class CarInput : MonoBehaviour, IDrivingInput
     [Header("按键扫描")]
     [Tooltip("长按切视角键多久进入扫描模式")]
     public float scanHoldSeconds = 1.5f;
-    [Tooltip("键盘上进扫描模式的长按键（手柄是长按切视角键）")]
-    public KeyCode scanKey = KeyCode.F2;
 
     // ---------------- 对外状态 ----------------
 
@@ -72,7 +68,6 @@ public class CarInput : MonoBehaviour, IDrivingInput
     public float Throttle { get; private set; }    // 0..1
     public float Brake { get; private set; }       // 0..1
     public bool Handbrake { get; private set; }
-    public bool TurnSignalOn { get; private set; }
 
     /// <summary>任意驾驶动作触发（键盘或手柄）。</summary>
     public event Action<CarAction> OnAction;
@@ -98,7 +93,7 @@ public class CarInput : MonoBehaviour, IDrivingInput
     // 扫描模式
     readonly CarAction[] _scanOrder =
     {
-        CarAction.Reverse, CarAction.Drive, CarAction.Handbrake, CarAction.Signal, CarAction.Camera
+        CarAction.Reverse, CarAction.Drive, CarAction.Handbrake, CarAction.Reset, CarAction.Camera
     };
     int _scanStep = -1;
     float _cameraHold;
@@ -128,18 +123,6 @@ public class CarInput : MonoBehaviour, IDrivingInput
     {
         EnsureDefaults();
         ApplyProfile();
-        EnsureDiagnostics();
-    }
-
-    /// <summary>
-    /// 老场景里没有挂自检面板。这里运行时自动补一个，
-    /// 这样不用重建场景也能按 P 看轴值、键号和布局切换。
-    /// </summary>
-    void EnsureDiagnostics()
-    {
-        if (GetComponent<InputDiagnostics>() != null) return;
-        var diag = gameObject.AddComponent<InputDiagnostics>();
-        diag.input = this;
     }
 
     /// <summary>按 profile 字段（或自动识别）写入轴候选与键号。</summary>
@@ -150,7 +133,7 @@ public class CarInput : MonoBehaviour, IDrivingInput
         CurrentProfileName = ControlProfiles.Get(ResolvedProfile).displayName;
     }
 
-    /// <summary>运行时切换布局（自检面板按钮、或外部调用）。</summary>
+    /// <summary>运行时切换布局。</summary>
     public void SetProfile(ControlProfileKind kind)
     {
         profile = kind;
@@ -373,7 +356,7 @@ public class CarInput : MonoBehaviour, IDrivingInput
     void ReadButtons()
     {
         // 长按切视角键 → 进入扫描
-        if (JoyHeld(buttonCamera) || Input.GetKey(scanKey))
+        if (JoyHeld(buttonCamera))
         {
             _cameraHold += Time.unscaledDeltaTime;
             if (_cameraHold >= scanHoldSeconds)
@@ -397,15 +380,8 @@ public class CarInput : MonoBehaviour, IDrivingInput
             Fire(CarAction.Handbrake);
         }
 
-        if (JoyDown(buttonSignal) || Input.GetKeyDown(KeyCode.T))
-        {
-            TurnSignalOn = !TurnSignalOn;
-            Fire(CarAction.Signal);
-        }
-
-        if (JoyDown(buttonCamera) || Input.GetKeyDown(KeyCode.Q)) Fire(CarAction.Camera);
         if (JoyDown(buttonReset) || Input.GetKeyDown(KeyCode.Backspace)) Fire(CarAction.Reset);
-        if (JoyDown(buttonHelp)) Fire(CarAction.Help);
+        if (JoyDown(buttonCamera) || Input.GetKeyDown(KeyCode.Q)) Fire(CarAction.Camera);
     }
 
     void Fire(CarAction action)
@@ -459,7 +435,7 @@ public class CarInput : MonoBehaviour, IDrivingInput
         {
             _scanStep = -1;
             Debug.Log("[输入] 扫描完成：倒挡=" + buttonReverse + " 前进挡=" + buttonDrive +
-                      " 手刹=" + buttonHandbrake + " 转向灯=" + buttonSignal + " 切视角=" + buttonCamera);
+                      " 手刹=" + buttonHandbrake + " 复位=" + buttonReset + " 切视角=" + buttonCamera);
             var done = OnScanModeChanged;
             if (done != null) done(false);
         }
@@ -484,10 +460,8 @@ public class CarInput : MonoBehaviour, IDrivingInput
             case CarAction.Reverse: return buttonReverse;
             case CarAction.Drive: return buttonDrive;
             case CarAction.Handbrake: return buttonHandbrake;
-            case CarAction.Signal: return buttonSignal;
-            case CarAction.Camera: return buttonCamera;
             case CarAction.Reset: return buttonReset;
-            case CarAction.Help: return buttonHelp;
+            case CarAction.Camera: return buttonCamera;
         }
         return -1;
     }
@@ -499,10 +473,8 @@ public class CarInput : MonoBehaviour, IDrivingInput
             case CarAction.Reverse: buttonReverse = index; break;
             case CarAction.Drive: buttonDrive = index; break;
             case CarAction.Handbrake: buttonHandbrake = index; break;
-            case CarAction.Signal: buttonSignal = index; break;
-            case CarAction.Camera: buttonCamera = index; break;
             case CarAction.Reset: buttonReset = index; break;
-            case CarAction.Help: buttonHelp = index; break;
+            case CarAction.Camera: buttonCamera = index; break;
         }
     }
 

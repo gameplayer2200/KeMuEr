@@ -17,11 +17,9 @@ public class ProfileData
     public string throttleAxes;
     public int buttonDrive;         // 绿 → 1 档
     public int buttonReverse;       // 红 → R 档
-    public int buttonSignal;        // 蓝 → 转向灯
     public int buttonHandbrake;     // 黄 → 手刹
+    public int buttonReset;         // 蓝 → 复位（科目二回当前科目起点）
     public int buttonCamera;        // 摇杆下压 → 切视角
-    public int buttonReset;         // Back/View → 回 A 点
-    public int buttonHelp;          // Start/Menu → 自检面板
     public bool invertThrottle;
     public bool invertSteer;
     public string note;
@@ -36,7 +34,7 @@ public class ProfileData
 ///   ③摇杆下压 → 切视角  → L3（左摇杆按下）
 ///   ⑥绿键 → 1 档        → A
 ///   ④红键 → R 档        → B
-///   ⑦蓝键 → 转向灯      → X
+///   ⑦蓝键 → 复位        → X
 ///   ⑤黄键 → 手刹        → Y
 /// 颜色正好对上 Xbox 的 A绿 / B红 / X蓝 / Y黄，所以这不是硬凑，是把自制板的配色逻辑搬到标准手柄上。
 /// </summary>
@@ -62,14 +60,12 @@ public static class ControlProfiles
             throttleAxes = "Stick Y",
             buttonDrive = 0,      // A 绿
             buttonReverse = 1,    // B 红
-            buttonSignal = 2,     // X 蓝
             buttonHandbrake = 3,  // Y 黄
+            buttonReset = 2,      // X 蓝 → 复位
             buttonCamera = 8,     // L3 左摇杆按下
-            buttonReset = -1,     // 与纸板一致：只有五个输入，没有第 6、7 个键
-            buttonHelp = -1,
             invertThrottle = true,   // Windows 下 Xbox 左摇杆上推为负值，必须反向
             invertSteer = false,
-            note = "A=1档 B=R档 X=转向灯 Y=手刹 L3=切视角（与纸板五个输入严格一一对应）"
+            note = "A=1档 B=R档 Y=手刹 X=复位 L3=切视角（与纸板五个输入严格一一对应）"
         };
     }
 
@@ -83,11 +79,9 @@ public static class ControlProfiles
             throttleAxes = "Stick Y,Stick Y2",
             buttonDrive = 1,      // 绿
             buttonReverse = 0,    // 红
-            buttonSignal = 3,     // 蓝
             buttonHandbrake = 2,  // 黄
+            buttonReset = 3,      // 蓝 → 复位
             buttonCamera = 4,     // 摇杆下压
-            buttonReset = -1,     // 板上没有第 6 个键
-            buttonHelp = -1,
             invertThrottle = false,
             invertSteer = false,
             note = "键号由固件决定，对不上就长按切视角键扫描一次"
@@ -134,11 +128,9 @@ public static class ControlProfiles
         input.throttleAxisCandidates = Split(data.throttleAxes);
         input.buttonDrive = data.buttonDrive;
         input.buttonReverse = data.buttonReverse;
-        input.buttonSignal = data.buttonSignal;
         input.buttonHandbrake = data.buttonHandbrake;
-        input.buttonCamera = data.buttonCamera;
         input.buttonReset = data.buttonReset;
-        input.buttonHelp = data.buttonHelp;
+        input.buttonCamera = data.buttonCamera;
         input.invertThrottle = data.invertThrottle;
         input.invertSteer = data.invertSteer;
     }
