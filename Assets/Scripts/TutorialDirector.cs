@@ -67,10 +67,29 @@ public class TutorialDirector : MonoBehaviour
         if (action == CarAction.Reset) Restart();
     }
 
+    void Start()
+    {
+        AudioDirector.Say(VoiceLines.TutIntro);
+        AudioDirector.Say(WaypointVoice(0));
+    }
+
     void OnConeKnocked(ConeKnock cone)
     {
         _conesHit++;
         ShowToast("碰倒了 1 个锥桶（教学关不扣分，正式考试扣 10 分）");
+        if (Time.time - _lastConeVoice > 2f)
+        {
+            _lastConeVoice = Time.time;
+            AudioDirector.Say(VoiceLines.TutCone);
+        }
+    }
+
+    float _lastConeVoice = -10f;
+
+    /// <summary>第 index 个教学路点对应哪条语音（场景里是 4 个路点）。</summary>
+    static string WaypointVoice(int index)
+    {
+        return "tut_wp" + Mathf.Clamp(index + 1, 1, 4);
     }
 
     void Update()
@@ -122,7 +141,12 @@ public class TutorialDirector : MonoBehaviour
         {
             _done = true;
             ShowToast("第一关完成！你已经学会起步、直行、转向和停车了。");
+            AudioDirector.Say(VoiceLines.TutDone);
             if (Completed != null) Completed();
+        }
+        else
+        {
+            AudioDirector.Say(WaypointVoice(_stage));
         }
     }
 
@@ -135,6 +159,7 @@ public class TutorialDirector : MonoBehaviour
         if (startPoint != null && car != null)
             car.ResetToPose(startPoint.position, startPoint.rotation);
         ShowToast("已回到 A 点");
+        AudioDirector.SayNow(VoiceLines.TutReset);
     }
 
     /// <summary>选关菜单跳回第一关时调用：重置教学流程并把车放回起点。</summary>

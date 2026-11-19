@@ -38,6 +38,21 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
+#if UNITY_EDITOR
+        UpdateDebugKeys();
+#endif
+    }
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// 数字选关是开发期工具，只编译进编辑器版本。
+    ///
+    /// 自制手柄只有「一个摇杆 + 四个按键」（倒挡/前进挡/手刹/复位），
+    /// 打包后玩家按不到数字键；如果留着这些分支，1 键还会和「前进挡」抢
+    /// （CarInput 里 1 键也是前进挡），所以正式包里必须整段不存在。
+    /// </summary>
+    void UpdateDebugKeys()
+    {
         if (Input.GetKeyDown(menuKey))
         {
             _menuVisible = !_menuVisible;
@@ -57,6 +72,7 @@ public class LevelManager : MonoBehaviour
         // 数字键 0 回第一关（教学）
         if (Input.GetKeyDown(KeyCode.Alpha0)) JumpToTutorial();
     }
+#endif
 
     /// <summary>跳到科目二第 stageIndex 个科目（0 起）。</summary>
     void Jump(int stageIndex)

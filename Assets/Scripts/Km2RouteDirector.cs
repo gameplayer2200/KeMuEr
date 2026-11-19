@@ -148,6 +148,8 @@ public class Km2RouteDirector : MonoBehaviour
         ExamActive = true;
         RefreshStopMarkers();
         ShowToast("科目二开始：1 倒车入库");
+        AudioDirector.Say(VoiceLines.Km2Start);
+        if (stages != null && stages.Length > 0) AudioDirector.Say(VoiceLines.StageKey(stages[0].number));
     }
 
     /// <summary>把车放回当前科目的第一个航点（复位功能）。</summary>
@@ -167,6 +169,7 @@ public class Km2RouteDirector : MonoBehaviour
         var start = stage.points[0];
         car.ResetToPose(start.position, start.rotation);
         ShowToast("已回到「" + stage.title + "」起点");
+        AudioDirector.SayNow(VoiceLines.Km2Reset);
     }
 
     /// <summary>
@@ -193,6 +196,7 @@ public class Km2RouteDirector : MonoBehaviour
         car.ResetToPose(stage.points[0].position, stage.points[0].rotation);
         RefreshStopMarkers();
         ShowToast("跳转到：" + stage.number + " " + stage.title);
+        AudioDirector.Say(VoiceLines.StageKey(stage.number));
     }
 
     void RefreshStopMarkers()
@@ -253,6 +257,7 @@ public class Km2RouteDirector : MonoBehaviour
         if (stages == null || _stage >= stages.Length) { Finish(); return; }
         RefreshStopMarkers();
         ShowToast("下一项：" + stages[_stage].number + " " + stages[_stage].title);
+        AudioDirector.Say(VoiceLines.StageKey(stages[_stage].number));
     }
 
     void Finish()
@@ -265,6 +270,7 @@ public class Km2RouteDirector : MonoBehaviour
                 if (_stopMarkers[i] != null) _stopMarkers[i].SetForStage(-1);  // 全部隐藏
         }
         ShowToast("科目二路线走完！");
+        AudioDirector.Say(VoiceLines.Km2Done);
     }
 
     /// <summary>选关菜单切回第一关时调用：结束科目二流程并清空接管状态。</summary>
