@@ -53,6 +53,10 @@ public class Km2RouteDirector : MonoBehaviour
     [Tooltip("到达一个点后要连续保持多少秒才算数（防止高速擦过）。")]
     public float arriveHoldSeconds = 0.15f;
 
+    [Header("结束")]
+    [Tooltip("跑完一圈后冻结车辆操作：成绩单背后车不能还在乱跑。蓝键（复位）仍可再来一次。")]
+    public bool freezeCarWhenFinished = true;
+
     // ---- 运行时状态 ----
     int _stage;
     int _point;
@@ -62,6 +66,14 @@ public class Km2RouteDirector : MonoBehaviour
     string _toast = "";
     float _toastUntil;
 
+    // 结束状态：跑完一圈后进入，画成绩单、冻结车辆，蓝键重来
+    bool _ended;
+    float _examStartTime;
+    float _elapsedSeconds;
+    int _conesHit;
+    int _resets;
+    IDrivingInput _drivingCache;   // 冻结前缓存的输入源，重来时装回去
+
     StopMarker[] _stopMarkers;
     CarInput _input;
 
@@ -70,11 +82,25 @@ public class Km2RouteDirector : MonoBehaviour
 
     public bool IsActive { get { return _active; } }
     public bool IsFinished { get { return _finished; } }
+
+    /// <summary>一圈跑完了，正在显示成绩单。</summary>
+    public bool IsEnded { get { return _ended; } }
+
+    /// <summary>这一圈用了多少秒（从 BeginExam 开始算）。</summary>
+    public float ElapsedSeconds { get { return _ended ? _elapsedSeconds : Mathf.Max(0f, Time.time - _examStartTime); } }
+
+    /// <summary>这一圈碰倒的锥桶数量。</summary>
+    public int ConesHit { get { return _conesHit; } }
+
+    /// <summary>这一圈按了几次复位。</summary>
+    public int ResetCount { get { return _resets; } }
+
     public int CurrentStage { get { return _stage; } }
 
     void OnEnable()
     {
         TutorialDirector.Completed += OnTutorialCompleted;
+        ConeKnock.Knocked += OnConeKnocked;
         ResolveCar();
         CacheStopMarkers();
         ResolveInput();
@@ -85,9 +111,15 @@ public class Km2RouteDirector : MonoBehaviour
     void OnDisable()
     {
         TutorialDirector.Completed -= OnTutorialCompleted;
+        ConeKnock.Knocked -= OnConeKnocked;
         if (_input != null) _input.OnAction -= OnCarAction;
         _input = null;
         ExamActive = false;
+    }
+
+    void OnConeKnocked(ConeKnock cone)
+    {
+        if (_active && !_ended) _conesHit++;
     }
 
     void HideAllStopMarkers()
@@ -121,7 +153,10 @@ public class Km2RouteDirector : MonoBehaviour
 
     void OnCarAction(CarAction action)
     {
-        if (action == CarAction.Reset) ResetToStageStart();
+        if (action != CarAction.Reset) return;
+        // 已经跑完一圈：蓝键 = 再来一次（先解冻再重新开始）
+        if (_ended) { RestartAfterFinish(); return; }
+        ResetToStageStart();
     }
 
     void OnTutorialCompleted()
@@ -145,9 +180,17 @@ public class Km2RouteDirector : MonoBehaviour
         _holdTimer = 0f;
         _active = true;
         _finished = false;
+        _ended = false;
+        _elapsedSeconds = 0f;
+        _examStartTime = Time.time;
+        _conesHit = 0;
+        _resets = 0;
+        RestoreDriving();
         ExamActive = true;
         RefreshStopMarkers();
         ShowToast("科目二开始：1 倒车入库");
+        AudioDirector.Say(VoiceLines.Km2Start);
+        if (stages != null && stages.Length > 0) AudioDirector.Say(VoiceLines.StageKey(stages[0].number));
     }
 
     /// <summary>把车放回当前科目的第一个航点（复位功能）。</summary>
@@ -164,9 +207,11 @@ public class Km2RouteDirector : MonoBehaviour
 
         _point = 0;
         _holdTimer = 0f;
+        _resets++;
         var start = stage.points[0];
         car.ResetToPose(start.position, start.rotation);
         ShowToast("已回到「" + stage.title + "」起点");
+        AudioDirector.SayNow(VoiceLines.Km2Reset);
     }
 
     /// <summary>
@@ -188,11 +233,18 @@ public class Km2RouteDirector : MonoBehaviour
         _holdTimer = 0f;
         _active = true;
         _finished = false;
+        _ended = false;
+        _elapsedSeconds = 0f;
+        _examStartTime = Time.time;
+        _conesHit = 0;
+        _resets = 0;
+        RestoreDriving();
         ExamActive = true;
 
         car.ResetToPose(stage.points[0].position, stage.points[0].rotation);
         RefreshStopMarkers();
         ShowToast("跳转到：" + stage.number + " " + stage.title);
+        AudioDirector.Say(VoiceLines.StageKey(stage.number));
     }
 
     void RefreshStopMarkers()
@@ -253,18 +305,74 @@ public class Km2RouteDirector : MonoBehaviour
         if (stages == null || _stage >= stages.Length) { Finish(); return; }
         RefreshStopMarkers();
         ShowToast("下一项：" + stages[_stage].number + " " + stages[_stage].title);
+        AudioDirector.Say(VoiceLines.StageKey(stages[_stage].number));
     }
 
     void Finish()
     {
         _finished = true;
         _active = false;
+        _ended = true;
+        _elapsedSeconds = Mathf.Max(0f, Time.time - _examStartTime);
         if (_stopMarkers != null)
         {
             for (int i = 0; i < _stopMarkers.Length; i++)
                 if (_stopMarkers[i] != null) _stopMarkers[i].SetForStage(-1);  // 全部隐藏
         }
-        ShowToast("科目二路线走完！");
+        if (freezeCarWhenFinished) FreezeCar();
+        ShowToast("科目二完成！这一圈用时 " + FormatTime(_elapsedSeconds));
+        AudioDirector.Say(VoiceLines.Km2Done);
+    }
+
+    /// <summary>跑完一圈后按蓝键：解冻车辆，把整场考试从头再跑一圈。</summary>
+    public void RestartAfterFinish()
+    {
+        if (!_ended) return;
+        _ended = false;
+        RestoreDriving();
+        BeginExam();
+    }
+
+    /// <summary>
+    /// 冻结车辆：成绩单期间车不能还跟着摇杆跑。
+    /// CarController.Update 开头就是 `if (_driving == null) return;`，把输入源摘掉即可；
+    /// 本组件的 OnCarAction 不依赖车，蓝键（复位）仍然收得到。
+    /// </summary>
+    void FreezeCar()
+    {
+        if (car == null) return;
+        var input = car.GetComponent<CarInput>();
+        if (input != null) _drivingCache = input;
+        car.SetDrivingInput(null);
+    }
+
+    /// <summary>把冻结前缓存的输入源装回去。</summary>
+    void RestoreDriving()
+    {
+        if (car == null) return;
+        if (_drivingCache == null)
+        {
+            var input = car.GetComponent<CarInput>();
+            if (input != null) _drivingCache = input;
+        }
+        if (_drivingCache != null) car.SetDrivingInput(_drivingCache);
+    }
+
+    /// <summary>测试用：不跑路线，直接进入结束状态（验证成绩单 / 冻结 / 重来链路）。</summary>
+    public void DebugFinish()
+    {
+        ResolveCar();
+        if (!_active && !_ended) BeginExam();
+        Finish();
+    }
+
+    /// <summary>秒 → "分:秒"（成绩单和 HUD 共用）。</summary>
+    public static string FormatTime(float seconds)
+    {
+        if (seconds < 0f) seconds = 0f;
+        int m = Mathf.FloorToInt(seconds / 60f);
+        float s = seconds - m * 60f;
+        return string.Format("{0}:{1:00.0}", m, s);
     }
 
     /// <summary>选关菜单切回第一关时调用：结束科目二流程并清空接管状态。</summary>
@@ -272,7 +380,9 @@ public class Km2RouteDirector : MonoBehaviour
     {
         _active = false;
         _finished = true;
+        _ended = false;
         ExamActive = false;
+        RestoreDriving();
         if (_stopMarkers != null)
         {
             for (int i = 0; i < _stopMarkers.Length; i++)
@@ -307,6 +417,12 @@ public class Km2RouteDirector : MonoBehaviour
     {
         if (!_active && !_finished) return;
         EnsureStyles();
+
+        if (_ended)
+        {
+            DrawFinishScreen();
+            return;
+        }
 
         if (_finished)
         {
@@ -350,7 +466,7 @@ public class Km2RouteDirector : MonoBehaviour
         // 科目二接管后第一关的 HUD 让位了，这段仪表盘得在这里补上，否则档位显示会消失。
         if (car != null)
         {
-            Rect dash = new Rect(Screen.width - 250f, 24f, 226f, 96f);
+            Rect dash = new Rect(Screen.width - 250f, 24f, 226f, 122f);
             DrawPanel(dash, new Color(0.04f, 0.05f, 0.07f, 0.75f));
 
             var speedStyle = new GUIStyle(_title);
@@ -364,6 +480,9 @@ public class Km2RouteDirector : MonoBehaviour
             var carInput = car.GetComponent<CarInput>();
             GUI.Label(new Rect(dash.x + 16f, dash.y + 46f, 200f, 24f),
                 gear + (carInput != null && carInput.Handbrake ? "   手刹" : ""), _small);
+
+            GUI.Label(new Rect(dash.x + 16f, dash.y + 76f, 200f, 24f),
+                "用时 " + FormatTime(ElapsedSeconds), _small);
         }
 
         if (Time.time < _toastUntil && !string.IsNullOrEmpty(_toast))
@@ -371,6 +490,37 @@ public class Km2RouteDirector : MonoBehaviour
             var s = new GUIStyle(_body) { fontSize = 20, alignment = TextAnchor.MiddleCenter };
             GUI.Label(new Rect(0f, Screen.height * 0.72f, Screen.width, 40f), _toast, s);
         }
+    }
+
+    /// <summary>
+    /// 结束成绩单：跑完一圈后常驻显示，替代原来的任务卡。
+    /// 场景到这里就算走完了 —— 车已冻结，只有蓝键（复位）能把整场考试重开。
+    /// </summary>
+    void DrawFinishScreen()
+    {
+        DrawPanel(new Rect(0f, 0f, Screen.width, Screen.height), new Color(0.02f, 0.03f, 0.04f, 0.70f));
+
+        float w = Mathf.Min(680f, Screen.width - 56f);
+        float h = 336f;
+        Rect card = new Rect((Screen.width - w) * 0.5f, (Screen.height - h) * 0.42f, w, h);
+        DrawPanel(card, new Color(0.06f, 0.08f, 0.11f, 0.96f));
+
+        var title = new GUIStyle(_big) { fontSize = 34, alignment = TextAnchor.MiddleCenter };
+        GUI.Label(new Rect(card.x + 20f, card.y + 18f, card.width - 40f, 48f), "科目二完成 · 跑完一圈", title);
+
+        var line = new GUIStyle(_body) { fontSize = 21, alignment = TextAnchor.MiddleCenter };
+        float y = card.y + 84f;
+        GUI.Label(new Rect(card.x + 20f, y, card.width - 40f, 30f), "用时  " + FormatTime(_elapsedSeconds), line); y += 36f;
+        GUI.Label(new Rect(card.x + 20f, y, card.width - 40f, 30f), "碰倒锥桶  " + _conesHit + " 个", line); y += 36f;
+        GUI.Label(new Rect(card.x + 20f, y, card.width - 40f, 30f), "复位  " + _resets + " 次", line); y += 48f;
+
+        var hint = new GUIStyle(_body) { fontSize = 20, alignment = TextAnchor.MiddleCenter };
+        hint.normal.textColor = new Color(0.95f, 0.85f, 0.45f);
+        GUI.Label(new Rect(card.x + 20f, y, card.width - 40f, 30f), "按 蓝键（复位 / 键盘退格）再来一圈", hint); y += 30f;
+
+        var end = new GUIStyle(_small) { fontSize = 16, alignment = TextAnchor.MiddleCenter };
+        end.normal.textColor = new Color(0.72f, 0.76f, 0.82f);
+        GUI.Label(new Rect(card.x + 20f, y, card.width - 40f, 26f), "本关到此结束", end);
     }
 
     static void DrawPanel(Rect r, Color c)

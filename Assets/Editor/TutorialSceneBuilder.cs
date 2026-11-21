@@ -115,17 +115,9 @@ public static class TutorialSceneBuilder
         props.SetParent(root, false);
         BuildProps(props);
 
-        // ---------------- A / B 标记 ----------------
+        // ---------------- 起点标记（A/B 点已废弃：第一关改成纯按键教学） ----------------
         var markers = new GameObject("Markers").transform;
         markers.SetParent(root, false);
-
-        Box("A_Box", new Vector3(PointA.x, 0.02f, PointA.z), new Vector3(3.2f, 0.02f, 3.2f), white, markers, true);
-        Box("A_Box2", new Vector3(PointA.x, 0.021f, PointA.z), new Vector3(2.6f, 0.02f, 2.6f), yellow, markers, true);
-        Box("B_Box", new Vector3(PointB.x, 0.02f, PointB.z), new Vector3(3.2f, 0.02f, 3.2f), white, markers, true);
-        Box("B_Box2", new Vector3(PointB.x, 0.021f, PointB.z), new Vector3(2.6f, 0.02f, 2.6f), yellow, markers, true);
-
-        CreateLabel("A", new Vector3(PointA.x - 4.4f, 3.2f, PointA.z - 1.5f), 180f, Color.white);
-        CreateLabel("B", new Vector3(PointB.x + 4.6f, 3.2f, PointB.z), -90f, new Color(0.55f, 1f, 0.55f));
 
         // ---------------- 锥桶（施工区装饰） ----------------
         if (conePrefab != null)
@@ -198,33 +190,7 @@ public static class TutorialSceneBuilder
         var director = tutorialGO.AddComponent<TutorialDirector>();
         director.car = car.GetComponent<CarController>();
         director.startPoint = startPoint.transform;
-        director.waypoints = new[]
-        {
-            new TutorialWaypoint
-            {
-                position = new Vector3(LaneX, 0f, 14f), radius = 6f,
-                title = "起步直行",
-                instruction = "把摇杆往前推（键盘 W）起步，沿主路一直往前开。"
-            },
-            new TutorialWaypoint
-            {
-                position = new Vector3(LaneX, 0f, 38f), radius = 6f,
-                title = "路口右转",
-                instruction = "到路口了：按路边指示牌右转，摇杆往右（键盘 D），同时松一点油门。"
-            },
-            new TutorialWaypoint
-            {
-                position = new Vector3(16f, 0f, CrossZ - LaneX), radius = 9f,
-                title = "沿横路直行",
-                instruction = "转过来之后沿横路直行，绿色 B 点在前面。"
-            },
-            new TutorialWaypoint
-            {
-                position = PointB, radius = 5f, requireStop = true,
-                title = "到达 B 点",
-                instruction = "把车开进 B 点的停车框，停稳（摇杆下拉 / 键盘 S 刹车），第一关结束。"
-            }
-        };
+        // 按键教学的步骤写在 TutorialDirector.Steps 里，不再需要场景路点数据。
 
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene, ScenePath);

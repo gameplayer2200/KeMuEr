@@ -69,6 +69,12 @@ public class CarInput : MonoBehaviour, IDrivingInput
     public float Brake { get; private set; }       // 0..1
     public bool Handbrake { get; private set; }
 
+    /// <summary>由车控在开局/复位时直接设定手刹状态（不触发按键事件）。</summary>
+    public void SetHandbrake(bool on)
+    {
+        Handbrake = on;
+    }
+
     /// <summary>任意驾驶动作触发（键盘或手柄）。</summary>
     public event Action<CarAction> OnAction;
     /// <summary>进入/退出按键扫描模式。参数 true = 进入。</summary>
@@ -90,11 +96,16 @@ public class CarInput : MonoBehaviour, IDrivingInput
     float _pollTimer;
     string[] _joyNames = new string[0];
 
-    // 扫描模式
-    readonly CarAction[] _scanOrder =
+    // 扫描模式（BeginScan 时按当前是否有空余键重建：切视角没绑就只扫四步）
+    static readonly CarAction[] FullScanOrder =
     {
         CarAction.Reverse, CarAction.Drive, CarAction.Handbrake, CarAction.Reset, CarAction.Camera
     };
+    static readonly CarAction[] FourKeyScanOrder =
+    {
+        CarAction.Reverse, CarAction.Drive, CarAction.Handbrake, CarAction.Reset
+    };
+    CarAction[] _scanOrder = FullScanOrder;
     int _scanStep = -1;
     float _cameraHold;
 
@@ -355,8 +366,8 @@ public class CarInput : MonoBehaviour, IDrivingInput
 
     void ReadButtons()
     {
-        // 长按切视角键 → 进入扫描
-        if (JoyHeld(buttonCamera))
+        // 长按切视角键 → 进入扫描；外接四键控制器没有空余键，用 F1 长按也能进
+        if (JoyHeld(buttonCamera) || Input.GetKey(KeyCode.F1))
         {
             _cameraHold += Time.unscaledDeltaTime;
             if (_cameraHold >= scanHoldSeconds)
@@ -399,6 +410,7 @@ public class CarInput : MonoBehaviour, IDrivingInput
     {
         if (Scanning) return;
         _scanStep = 0;
+        _scanOrder = buttonCamera >= 0 ? FullScanOrder : FourKeyScanOrder;
         Debug.Log("[输入] 进入按键扫描：请依次按 " + _scanOrder.Length + " 个键");
         var h = OnScanModeChanged;
         if (h != null) h(true);
