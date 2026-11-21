@@ -5,7 +5,8 @@ public enum ControlProfileKind
 {
     Auto = 0,        // 看设备名自动判断
     CustomX1K4 = 1,  // 自制纸板控制器（X1K4 摇杆 + 4 颗彩键 + Pro Micro）
-    XboxGamepad = 2  // 市售标准手柄（Xbox / PS 的 ABXY 布局）
+    XboxGamepad = 2, // 市售标准手柄（Xbox / PS 的 ABXY 布局）
+    External4Pad = 3 // 外接四键控制器：键 1 / 4 / 7 / 10
 }
 
 /// <summary>一份完整的输入布局数据。</summary>
@@ -46,6 +47,7 @@ public static class ControlProfiles
         {
             case ControlProfileKind.XboxGamepad: return Xbox();
             case ControlProfileKind.CustomX1K4: return CustomBoard();
+            case ControlProfileKind.External4Pad: return External4();
             default: return Xbox();
         }
     }
@@ -88,6 +90,31 @@ public static class ControlProfiles
         };
     }
 
+    /// <summary>
+    /// 外接四键控制器（HID 里报成 Button 1/4/7/10，Unity 侧是 JoystickButton 9/6/3/0）。
+    /// 实测按 红 → 黄 → 绿 → 蓝 的顺序按下，Console 依次收到 9 / 6 / 3 / 0，
+    /// 所以接线是「蓝最小、红最大」，与配置图上的编号顺序相反：
+    ///   红=9 → R 档，黄=6 → 手刹，绿=3 → 1 档，蓝=0 → 切视角。
+    /// 复位不占实体键，留键盘 退格。
+    /// </summary>
+    static ProfileData External4()
+    {
+        return new ProfileData
+        {
+            displayName = "外接四键控制器（键 9/6/3/0）",
+            steerAxes = "Stick X,Stick X2",
+            throttleAxes = "Stick Y,Stick Y2",
+            buttonDrive = 3,      // 绿 → 1 档
+            buttonReverse = 9,    // 红 → R 档
+            buttonHandbrake = 6,  // 黄 → 手刹
+            buttonReset = -1,     // 复位不占实体键，留键盘 退格
+            buttonCamera = 0,     // 蓝 → 切视角
+            invertThrottle = true,   // 通用 USB 摇杆上推为负值（实测推=刹车），必须反向
+            invertSteer = false,
+            note = "键 9=倒挡 键 6=手刹 键 3=前进挡 键 0=切视角；复位不占键（退格）；对不上就长按 F1 扫描重绑"
+        };
+    }
+
     /// <summary>按设备名猜：认到 Xbox / XInput / Wireless Controller 就走标准手柄预设。</summary>
     public static ControlProfileKind Detect()
     {
@@ -104,6 +131,11 @@ public static class ControlProfiles
             named++;
 
             string lower = n.ToLowerInvariant();
+
+            // 外接四键板子在 Windows 里通名是 "Generic USB Joystick"，必须先于 "joystick" 判断
+            if (lower.Contains("generic") && lower.Contains("joystick"))
+                return ControlProfileKind.External4Pad;
+
             if (lower.Contains("xbox") || lower.Contains("xinput") ||
                 lower.Contains("wireless controller") || lower.Contains("dualshock") ||
                 lower.Contains("dualsense") || lower.Contains("gamepad") ||

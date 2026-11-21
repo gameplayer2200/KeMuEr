@@ -38,6 +38,12 @@ public class CarController : MonoBehaviour
     [Tooltip("俯仰角度上限，防止模型边缘把车身翻过去。")]
     public float maxSlopeDeg = 25f;
 
+    [Header("开局状态")]
+    [Tooltip("开局挡位。真实科二：上车是空挡 + 手刹拉住，挂上 1 档、松开手刹，车才会动。")]
+    public DriveGear initialGear = DriveGear.Neutral;
+    [Tooltip("开局是否已经拉着手刹。")]
+    public bool initialHandbrake = true;
+
     [Header("状态（只读）")]
     [Tooltip("硬件反馈（档位 LED / 震动）。没有硬件时留空即可，内部用 NullDrivingFeedback 兜底。")]
     public MonoBehaviour feedbackSource;
@@ -47,7 +53,7 @@ public class CarController : MonoBehaviour
     // 手刹拉住还踩油门时的熄火抖动节奏控制
     float _lastStallPulse = -1f;
 
-    public DriveGear Gear = DriveGear.Drive;
+    public DriveGear Gear = DriveGear.Neutral;
     public float Speed { get; private set; }          // m/s，带符号
     public float SpeedKmh { get { return Mathf.Abs(Speed) * 3.6f; } }
     public float SteerAngleDeg { get; private set; }
@@ -66,6 +72,10 @@ public class CarController : MonoBehaviour
         _input = GetComponent<CarInput>();
         _driving = _input as IDrivingInput;
         _baseY = transform.position.y;
+
+        // 上车状态：空挡 + 手刹拉住。挂 1 档、松手刹之前，油门推了也不走（见 UpdateSpeed 的 engineCut）。
+        Gear = initialGear;
+        if (_input != null) _input.SetHandbrake(initialHandbrake);
 
         if (feedbackSource is IDrivingFeedback fb) _feedback = fb;
         else _feedback = NullDrivingFeedback.Instance;
@@ -274,11 +284,23 @@ public class CarController : MonoBehaviour
         _feedback.OnGearChanged(Gear);
     }
 
+    /// <summary>只把车挪到指定姿态（跑出跑道回退用）。保留挡位与手刹，速度清零。</summary>
+    public void WarpTo(Vector3 position, Quaternion rotation)
+    {
+        Speed = 0f;
+        SteerAngleDeg = 0f;
+        transform.SetPositionAndRotation(position, rotation);
+        _baseY = position.y;
+        _hasFront = _hasRear = false;
+    }
+
     public void ResetToPose(Vector3 position, Quaternion rotation)
     {
         Speed = 0f;
         SteerAngleDeg = 0f;
-        Gear = DriveGear.Drive;
+        Gear = initialGear;
+        if (_input != null) _input.SetHandbrake(initialHandbrake);
+        _feedback.OnGearChanged(Gear);
         transform.SetPositionAndRotation(position, rotation);
         _baseY = position.y;
         _hasFront = _hasRear = false;
