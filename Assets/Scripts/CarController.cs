@@ -59,6 +59,12 @@ public class CarController : MonoBehaviour
     public float SteerAngleDeg { get; private set; }
     public bool CanShift { get { return Mathf.Abs(Speed) <= shiftSpeedLimit; } }
 
+    /// <summary>
+    /// 车辆是否在接收输入。跑完一圈进入结束结算时，Km2RouteDirector 会把输入源摘掉
+    /// （Update 第一行 `if (_driving == null) return;`），车就彻底停住，不再响应摇杆。
+    /// </summary>
+    public bool DrivingEnabled { get { return _driving != null; } }
+
     // 平地基准高度与坡道探针状态
     float _baseY;
     float _frontY, _rearY;

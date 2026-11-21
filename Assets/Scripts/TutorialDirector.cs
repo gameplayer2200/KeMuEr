@@ -109,6 +109,8 @@ public class TutorialDirector : MonoBehaviour
     {
         _step = 0;
         ShowToast("跟着左上角的提示，把每个按键都按一遍");
+        AudioDirector.Say(VoiceLines.TutIntro);
+        AudioDirector.Say(VoiceLines.TutorialStepKey(0));
     }
 
     void OnConeKnocked(ConeKnock cone)
@@ -185,13 +187,14 @@ public class TutorialDirector : MonoBehaviour
         if (_step >= Steps.Length)
         {
             _done = true;
-            ShowToast("教学完成！按键都认识了，接下来上场考试");
+            ShowToast("教学完成！按键都认识了，接下来跑一圈：1 倒车入库");
             AudioDirector.Say(VoiceLines.TutDone);
             if (Completed != null) Completed();
         }
         else
         {
             ShowToast("✓ 这一步过了：" + Steps[_step - 1].title);
+            AudioDirector.Say(VoiceLines.TutorialStepKey(_step));
         }
     }
 

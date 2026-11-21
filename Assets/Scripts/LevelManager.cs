@@ -85,7 +85,7 @@ public class LevelManager : MonoBehaviour
     void JumpToTutorial()
     {
         if (tutorial == null) { Resolve(); if (tutorial == null) return; }
-        if (exam != null && exam.IsActive) exam.FinishExamForMenu();
+        if (exam != null && (exam.IsActive || exam.IsEnded)) exam.FinishExamForMenu();
         tutorial.RestartFromMenu();
         _menuVisible = false;
     }
