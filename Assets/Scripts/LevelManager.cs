@@ -4,10 +4,13 @@ using UnityEngine;
 /// 测试用选关管理器：让测试时不用从头跑，直接跳到想测的关卡。
 ///
 /// 按键：
-///   数字 0         → 第一关（教学 A→B）
-///   数字 1..5      → 科目二对应科目（1倒车入库 2侧方 3坡道 4直角 5曲线）
-///   退格/复位键     → 回到当前科目起点（已由 Km2RouteDirector 处理）
-///   按住 ` 键(反引号) → 显示/隐藏选关菜单
+///   ` 键(反引号)  → 打开/关闭选关菜单
+///   菜单打开时：
+///     数字 0      → 第一关（教学）
+///     数字 1..5   → 科目二对应科目（1倒车入库 2侧方 3坡道 4直角 5曲线）
+///
+/// 注意：数字跳关只在菜单打开时生效。菜单关着时 1 键归 CarInput 的「前进挡」，
+/// 两者不抢同一个键。
 ///
 /// 纯测试工具，正式打包时可在场景里禁用本组件（或由构建脚本剔除）。
 /// </summary>
@@ -47,9 +50,11 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// 数字选关是开发期工具，只编译进编辑器版本。
     ///
-    /// 自制手柄只有「一个摇杆 + 四个按键」（倒挡/前进挡/手刹/复位），
-    /// 打包后玩家按不到数字键；如果留着这些分支，1 键还会和「前进挡」抢
-    /// （CarInput 里 1 键也是前进挡），所以正式包里必须整段不存在。
+    /// 自制手柄只有「一个摇杆 + 四个按键」（倒挡/前进挡/手刹/切视角），
+    /// 打包后玩家按不到数字键，所以正式包里必须整段不存在。
+    ///
+    /// 1 键在 CarInput 里是「前进挡」，为了不抢，数字跳关只在菜单打开时才生效：
+    /// 菜单关着时 1~5 全是换挡/无效键，想跳关先按 ` 打开菜单。
     /// </summary>
     void UpdateDebugKeys()
     {
@@ -58,6 +63,7 @@ public class LevelManager : MonoBehaviour
             _menuVisible = !_menuVisible;
         }
 
+        if (!_menuVisible) return;
         if (!enableQuickSelect) return;
 
         Resolve();
@@ -121,7 +127,7 @@ public class LevelManager : MonoBehaviour
         GUI.Label(new Rect(x, y, w - 36f, 30f), "选关（测试用）", _title);
         y += 40f;
 
-        GUI.Label(new Rect(x, y, w - 36f, 22f), "[0]  第一关 · 教学（A→B）", _key); y += 26f;
+        GUI.Label(new Rect(x, y, w - 36f, 22f), "[0]  第一关 · 按键教学", _key); y += 26f;
         GUI.Label(new Rect(x, y, w - 36f, 22f), "[1]  倒车入库", _key); y += 26f;
         GUI.Label(new Rect(x, y, w - 36f, 22f), "[2]  侧方停车", _key); y += 26f;
         GUI.Label(new Rect(x, y, w - 36f, 22f), "[3]  坡道定点停车和起步", _key); y += 26f;

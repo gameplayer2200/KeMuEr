@@ -7,10 +7,11 @@ using UnityEngine;
 /// <summary>
 /// 流程自检：跑完一圈之后的「结束」链路。
 ///
-/// 检查三件事：
+/// 检查两件事：
 ///   1) 结算（DebugFinish）真的进入结束状态，成绩单数据算得出来；
-///   2) 结算时车辆被冻结（CarController.DrivingEnabled == false），车不会在成绩单背后继续跑；
-///   3) 按蓝键（复位）能解冻并从第 1 项重新开一圈。
+///   2) 结算时车辆被冻结（CarController.DrivingEnabled == false），车不会在成绩单背后继续跑。
+///
+/// 本关结算后没有重来入口（复位功能已删除），跑到这里就算结束。
 ///
 /// batchmode 用法：
 ///   Unity.exe -batchmode -nographics -projectPath &lt;项目&gt; -logFile Temp/flow_smoke.log
@@ -60,7 +61,7 @@ public static class FlowSmokeTest
         }
     }
 
-    [MenuItem("科目二/流程自检（结束与重来）")]
+    [MenuItem("科目二/流程自检（结算与冻结）")]
     public static void PlaySmoke()
     {
         SessionState.SetBool(KeyRestoreBg, PlayerSettings.runInBackground);
@@ -81,7 +82,7 @@ public static class FlowSmokeTest
         EditorApplication.update += Tick;
 
         Phase = PhaseWaitPlay;
-        Debug.Log("[流程自检] 进入 Play 模式检查「结束 → 重来」");
+        Debug.Log("[流程自检] 进入 Play 模式检查「结算 → 冻结」");
         EditorApplication.isPlaying = true;
     }
 
@@ -185,31 +186,14 @@ public static class FlowSmokeTest
                 NextStep(1, now);
                 break;
 
-            case 1: // 复位计数 + 结算 + 冻结
+            case 1: // 结算 + 冻结
                 if (since < 0.3f) return;
-                int before = exam.ResetCount;
-                exam.ResetToStageStart();
-                Require(exam.ResetCount == before + 1, "复位计数没有 +1（" + before + " → " + exam.ResetCount + "）");
-
                 exam.DebugFinish();
                 Require(exam.IsEnded, "DebugFinish 之后 IsEnded 仍是 false");
                 Require(!car.DrivingEnabled, "结算时车辆没有冻结（DrivingEnabled 仍为 true）");
                 Require(exam.ElapsedSeconds >= 0f, "用时是负数：" + exam.ElapsedSeconds);
                 Note("· 结算 IsEnded=" + exam.IsEnded + " 用时=" + Km2RouteDirector.FormatTime(exam.ElapsedSeconds)
-                     + " 锥桶=" + exam.ConesHit + " 复位=" + exam.ResetCount + " 车辆可操作=" + car.DrivingEnabled);
-                NextStep(2, now);
-                break;
-
-            case 2: // 蓝键重来：解冻 + 从第 1 项开始
-                if (since < 0.3f) return;
-                exam.RestartAfterFinish();
-                Require(!exam.IsEnded, "RestartAfterFinish 之后 IsEnded 仍是 true");
-                Require(exam.IsActive, "RestartAfterFinish 之后没有重新开始（IsActive=false）");
-                Require(car.DrivingEnabled, "重来之后车辆仍然冻结（DrivingEnabled=false）");
-                Require(exam.CurrentStage == 0, "重来之后不是从第 1 项开始：" + exam.CurrentStage);
-                Require(exam.ConesHit == 0, "重来之后锥桶计数没有清零：" + exam.ConesHit);
-                Note("· 重来 IsActive=" + exam.IsActive + " CurrentStage=" + exam.CurrentStage
-                     + " 车辆可操作=" + car.DrivingEnabled);
+                     + " 锥桶=" + exam.ConesHit + " 车辆可操作=" + car.DrivingEnabled);
                 Stop();
                 break;
         }
@@ -248,7 +232,7 @@ public static class FlowSmokeTest
         sb.AppendLine("[流程自检] 运行期错误 " + errors + " 条");
         if (errText.Length > 0) sb.AppendLine(errText);
         if (notes.Length > 0) sb.Append(notes);
-        sb.AppendLine(fail == 0 ? "[流程自检] 结束与重来通过" : "[流程自检] 结束与重来失败（" + fail + " 项）");
+        sb.AppendLine(fail == 0 ? "[流程自检] 结算与冻结通过" : "[流程自检] 结算与冻结失败（" + fail + " 项）");
         Debug.Log(sb.ToString());
 
         if (Application.isBatchMode) QuitBatch((fail == 0 ? "PASS" : "FAIL") + " " + fail + "\n" + sb);

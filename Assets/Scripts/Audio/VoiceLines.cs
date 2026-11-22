@@ -10,22 +10,20 @@ using UnityEngine;
 /// </summary>
 public static class VoiceLines
 {
-    // ---- 第一关 · 按键教学（7 步，对应 TutorialDirector.Steps）----
+    // ---- 第一关 · 按键教学（6 步，对应 TutorialDirector.Steps）----
     public const string TutIntro = "tut_intro";
-    public const string TutReset = "tut_reset";
     public const string TutCone = "tut_cone";
     public const string TutDone = "tut_done";
 
     /// <summary>教学第 index 步（0 基）的语音 key。</summary>
     public static string TutorialStepKey(int index)
     {
-        return "tut_s" + Mathf.Clamp(index + 1, 1, 7);
+        return "tut_s" + Mathf.Clamp(index + 1, 1, 6);
     }
 
     // ---- 科目二 ----
     public const string Km2Start = "km2_start";
     public const string Km2Done = "km2_done";
-    public const string Km2Reset = "km2_reset";
 
     // ---- 通用 ----
     public const string ReverseWarn = "reverse_warn";
@@ -39,10 +37,8 @@ public static class VoiceLines
         { "tut_s4", "第四步，打方向。摇杆向左向右推。" },
         { "tut_s5", "第五步，切视角。按蓝色按键。" },
         { "tut_s6", "第六步，挂倒挡。先停稳，再按红色按键。" },
-        { "tut_s7", "最后一步，复位。按键盘退格，回到起点重来。" },
-        { TutDone, "按键教学完成。接下来跑一圈。" },
+        { TutDone, "按键教学完成。直接上场考试。" },
         { TutCone, "碰倒了锥桶。教学关不扣分，正式考试扣十分。" },
-        { TutReset, "已回到起点，按键教学从头开始。" },
 
         { Km2Start, "科目二考试开始。第一项，倒车入库。" },
         { "km2_s1", "第一项，倒车入库。请把车开到库前停止线，挂倒挡，倒入右侧库位，车身摆正后停稳。" },
@@ -51,7 +47,6 @@ public static class VoiceLines
         { "km2_s4", "第四项，直角转弯。请减速，沿内侧通过直角弯。" },
         { "km2_s5", "第五项，曲线行驶。请保持低速，沿曲线通过。" },
         { Km2Done, "科目二完成，这一圈跑完了。" },
-        { Km2Reset, "已回到本项起点。" },
 
         { ReverseWarn, "倒车，请注意。" },
     };

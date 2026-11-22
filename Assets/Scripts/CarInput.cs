@@ -13,7 +13,7 @@ public enum DriveGear
 ///
 /// 手柄（自制 X1K4 + Pro Micro，模拟标准 HID Gamepad）：
 ///   X 轴 = 方向盘，Y 轴 = 油门/刹车，5 个按键走 <see cref="buttonIndices"/>，摇杆按下 = 切镜头。
-/// 键盘：A/D 或 ←/→ 方向盘，W/↑ 油门，S/↓ 刹车，R 倒挡，1 前进挡，空格/G 手刹，T 转向灯，Q 切视角，退格 回起点，P 自检。
+/// 键盘：A/D 或 ←/→ 方向盘，W/↑ 油门，S/↓ 刹车，R 倒挡，1 前进挡，空格/G 手刹，Q 切视角。
 ///
 /// 三件为自制手柄专门做的事：
 ///   1) 轴名候选列表：不同的 HID 描述符会把摇杆报在 axis 0/1（X/Y）或 2/3（Z/Rz）上，
@@ -39,7 +39,6 @@ public class CarInput : MonoBehaviour, IDrivingInput
     public int buttonReverse = 0;     // 红
     public int buttonDrive = 1;       // 绿
     public int buttonHandbrake = 2;   // 黄
-    public int buttonReset = 3;       // 蓝 → 复位（科目二回当前科目起点）
     public int buttonCamera = 4;      // 摇杆按下
 
     [Header("手感参数")]
@@ -96,14 +95,14 @@ public class CarInput : MonoBehaviour, IDrivingInput
     float _pollTimer;
     string[] _joyNames = new string[0];
 
-    // 扫描模式（BeginScan 时按当前是否有空余键重建：切视角没绑就只扫四步）
+    // 扫描模式（BeginScan 时按当前是否有空余键重建：切视角没绑就只扫三步）
     static readonly CarAction[] FullScanOrder =
     {
-        CarAction.Reverse, CarAction.Drive, CarAction.Handbrake, CarAction.Reset, CarAction.Camera
+        CarAction.Reverse, CarAction.Drive, CarAction.Handbrake, CarAction.Camera
     };
     static readonly CarAction[] FourKeyScanOrder =
     {
-        CarAction.Reverse, CarAction.Drive, CarAction.Handbrake, CarAction.Reset
+        CarAction.Reverse, CarAction.Drive, CarAction.Handbrake
     };
     CarAction[] _scanOrder = FullScanOrder;
     int _scanStep = -1;
@@ -391,7 +390,6 @@ public class CarInput : MonoBehaviour, IDrivingInput
             Fire(CarAction.Handbrake);
         }
 
-        if (JoyDown(buttonReset) || Input.GetKeyDown(KeyCode.Backspace)) Fire(CarAction.Reset);
         if (JoyDown(buttonCamera) || Input.GetKeyDown(KeyCode.Q)) Fire(CarAction.Camera);
     }
 
@@ -447,7 +445,7 @@ public class CarInput : MonoBehaviour, IDrivingInput
         {
             _scanStep = -1;
             Debug.Log("[输入] 扫描完成：倒挡=" + buttonReverse + " 前进挡=" + buttonDrive +
-                      " 手刹=" + buttonHandbrake + " 复位=" + buttonReset + " 切视角=" + buttonCamera);
+                      " 手刹=" + buttonHandbrake + " 切视角=" + buttonCamera);
             var done = OnScanModeChanged;
             if (done != null) done(false);
         }
@@ -472,7 +470,6 @@ public class CarInput : MonoBehaviour, IDrivingInput
             case CarAction.Reverse: return buttonReverse;
             case CarAction.Drive: return buttonDrive;
             case CarAction.Handbrake: return buttonHandbrake;
-            case CarAction.Reset: return buttonReset;
             case CarAction.Camera: return buttonCamera;
         }
         return -1;
@@ -485,7 +482,6 @@ public class CarInput : MonoBehaviour, IDrivingInput
             case CarAction.Reverse: buttonReverse = index; break;
             case CarAction.Drive: buttonDrive = index; break;
             case CarAction.Handbrake: buttonHandbrake = index; break;
-            case CarAction.Reset: buttonReset = index; break;
             case CarAction.Camera: buttonCamera = index; break;
         }
     }
