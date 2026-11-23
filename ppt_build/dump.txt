@@ -1,0 +1,637 @@
+slide size: 9144000 5143500 = 10.0 x 5.625 in
+slides: 11
+layouts:
+   0 Title Slide
+   1 Title and Content
+   2 Section Header
+   3 Two Content
+   4 Comparison
+   5 Title Only
+   6 Blank
+   7 Content with Caption
+   8 Picture with Caption
+   9 Title and Vertical Text
+   10 Vertical Title and Text
+masters: 1
+
+=== SLIDE 1 layout= Blank ===
+  [AUTO_SHAPE (1)] name='Rectangle 1' pos=(0.00,0.00) size=(10.00x5.62)
+  [AUTO_SHAPE (1)] name='Rectangle 2' pos=(0.67,0.75) size=(0.58x0.04)
+  [TEXT_BOX (17)] name='TextBox 3' pos=(0.67,0.95) size=(4.19x0.21)
+      text: MET4332K · 互动游戏开发专题 · 自定义控制器
+  [TEXT_BOX (17)] name='TextBox 4' pos=(0.67,1.59) size=(2.61x0.71)
+      text: 《科目二》
+  [TEXT_BOX (17)] name='TextBox 5' pos=(0.67,2.31) size=(4.47x0.42)
+      text: 自定义控制器 · 考场的可玩化
+  [AUTO_SHAPE (1)] name='Rectangle 6' pos=(0.67,3.00) size=(1.25x0.02)
+  [TEXT_BOX (17)] name='TextBox 7' pos=(0.67,3.33) size=(3.36x0.26)
+      text: 科目二五个考点，在一张考场地图上跑通
+  [TEXT_BOX (17)] name='TextBox 8' pos=(0.67,3.66) size=(3.18x0.26)
+      text: 入库从「靠近就算过」改成四条硬判定
+  [TEXT_BOX (17)] name='TextBox 9' pos=(0.67,4.00) size=(3.53x0.26)
+      text: 两种手柄预设同一套代码，键号可现场重绑
+  [AUTO_SHAPE (1)] name='Rectangle 10' pos=(7.29,4.21) size=(2.04x0.02)
+  [AUTO_SHAPE (1)] name='Rectangle 11' pos=(7.29,4.46) size=(1.25x0.02)
+  [AUTO_SHAPE (1)] name='Rectangle 12' pos=(7.29,4.71) size=(2.04x0.02)
+  [TEXT_BOX (17)] name='TextBox 13' pos=(7.56,5.07) size=(1.77x0.21)
+      text: 2026 年 11 月
+
+=== SLIDE 2 layout= Blank ===
+  [AUTO_SHAPE (1)] name='Rectangle 1' pos=(0.00,0.00) size=(10.00x5.62)
+  [TEXT_BOX (17)] name='TextBox 2' pos=(0.67,0.54) size=(3.62x0.39)
+      text: 把五个考点排进一张城市场景
+  [TEXT_BOX (17)] name='TextBox 3' pos=(0.67,0.97) size=(3.91x0.21)
+      text: 五个考点复用园区现有道路与模型，只规划位置和先后顺序
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 4' pos=(0.67,1.40) size=(3.81x0.58)
+  [AUTO_SHAPE (1)] name='Oval 5' pos=(0.82,1.53) size=(0.31x0.31)
+  [TEXT_BOX (17)] name='TextBox 6' pos=(0.82,1.58) size=(0.31x0.21)
+      text: 1
+  [TEXT_BOX (17)] name='TextBox 7' pos=(1.27,1.47) size=(0.91x0.26)
+      text: 倒车入库
+  [TEXT_BOX (17)] name='TextBox 8' pos=(1.27,1.73) size=(1.65x0.19)
+      text: 主路北段 · 新建库位
+  [AUTO_SHAPE (1)] name='Rectangle 9' pos=(0.97,2.00) size=(0.02x0.15)
+  [AUTO_SHAPE (1)] name='Isosceles Triangle 10' pos=(0.94,2.06) size=(0.08x0.06)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 11' pos=(0.67,2.19) size=(3.81x0.58)
+  [AUTO_SHAPE (1)] name='Oval 12' pos=(0.82,2.32) size=(0.31x0.31)
+  [TEXT_BOX (17)] name='TextBox 13' pos=(0.82,2.38) size=(0.31x0.21)
+      text: 2
+  [TEXT_BOX (17)] name='TextBox 14' pos=(1.27,2.26) size=(0.91x0.26)
+      text: 侧方停车
+  [TEXT_BOX (17)] name='TextBox 15' pos=(1.27,2.52) size=(1.65x0.19)
+      text: 主路南段 · 新建库位
+  [AUTO_SHAPE (1)] name='Rectangle 16' pos=(0.97,2.79) size=(0.02x0.15)
+  [AUTO_SHAPE (1)] name='Isosceles Triangle 17' pos=(0.94,2.85) size=(0.08x0.06)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 18' pos=(0.67,2.98) size=(3.81x0.58)
+  [AUTO_SHAPE (1)] name='Oval 19' pos=(0.82,3.11) size=(0.31x0.31)
+  [TEXT_BOX (17)] name='TextBox 20' pos=(0.82,3.17) size=(0.31x0.21)
+      text: 3
+  [TEXT_BOX (17)] name='TextBox 21' pos=(1.27,3.05) size=(1.78x0.26)
+      text: 坡道定点停车和起步
+  [TEXT_BOX (17)] name='TextBox 22' pos=(1.27,3.31) size=(1.65x0.19)
+      text: 复用拱桥 · 坡度过陡
+  [AUTO_SHAPE (1)] name='Rectangle 23' pos=(0.97,3.58) size=(0.02x0.15)
+  [AUTO_SHAPE (1)] name='Isosceles Triangle 24' pos=(0.94,3.65) size=(0.08x0.06)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 25' pos=(0.67,3.77) size=(3.81x0.58)
+  [AUTO_SHAPE (1)] name='Oval 26' pos=(0.82,3.91) size=(0.31x0.31)
+  [TEXT_BOX (17)] name='TextBox 27' pos=(0.82,3.96) size=(0.31x0.21)
+      text: 4
+  [TEXT_BOX (17)] name='TextBox 28' pos=(1.27,3.84) size=(0.91x0.26)
+      text: 直角转弯
+  [TEXT_BOX (17)] name='TextBox 29' pos=(1.27,4.10) size=(1.39x0.19)
+      text: 东南路口 · 复用
+  [AUTO_SHAPE (1)] name='Rectangle 30' pos=(0.97,4.38) size=(0.02x0.15)
+  [AUTO_SHAPE (1)] name='Isosceles Triangle 31' pos=(0.94,4.44) size=(0.08x0.06)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 32' pos=(0.67,4.56) size=(3.81x0.58)
+  [AUTO_SHAPE (1)] name='Oval 33' pos=(0.82,4.70) size=(0.31x0.31)
+  [TEXT_BOX (17)] name='TextBox 34' pos=(0.82,4.75) size=(0.31x0.21)
+      text: 5
+  [TEXT_BOX (17)] name='TextBox 35' pos=(1.27,4.63) size=(0.91x0.26)
+      text: 曲线行驶
+  [TEXT_BOX (17)] name='TextBox 36' pos=(1.27,4.89) size=(1.52x0.19)
+      text: 西北波浪路 · 复用
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 37' pos=(4.90,1.40) size=(4.44x1.10)
+  [AUTO_SHAPE (1)] name='Rectangle 38' pos=(4.90,1.40) size=(0.04x1.10)
+  [TEXT_BOX (17)] name='TextBox 39' pos=(5.12,1.53) size=(1.19x0.24)
+      text: 顺序是硬约束
+  [TEXT_BOX (17)] name='TextBox 40' pos=(5.12,1.84) size=(2.77x0.21)
+      text: 倒车入库必须第一，曲线行驶必须最后。
+  [TEXT_BOX (17)] name='TextBox 41' pos=(5.12,2.09) size=(3.34x0.21)
+      text: 坡道按需求挪到第三位，不是地理上的直线顺序。
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 42' pos=(4.90,2.65) size=(4.44x1.10)
+  [AUTO_SHAPE (1)] name='Rectangle 43' pos=(4.90,2.65) size=(0.04x1.10)
+  [TEXT_BOX (17)] name='TextBox 44' pos=(5.12,2.78) size=(1.52x0.24)
+      text: 库位要贴着主路放
+  [TEXT_BOX (17)] name='TextBox 45' pos=(5.12,3.09) size=(2.48x0.21)
+      text: 引车道和库位都得落在路面范围内。
+  [TEXT_BOX (17)] name='TextBox 46' pos=(5.12,3.34) size=(2.20x0.21)
+      text: 超出路宽，车就开在草地上了。
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 47' pos=(4.90,3.90) size=(4.44x1.25)
+  [AUTO_SHAPE (1)] name='Rectangle 48' pos=(4.90,3.90) size=(0.04x1.25)
+  [TEXT_BOX (17)] name='TextBox 49' pos=(5.12,4.03) size=(2.01x0.24)
+      text: 坡道是这个场景里的变数
+  [TEXT_BOX (17)] name='TextBox 50' pos=(5.12,4.34) size=(3.34x0.21)
+      text: 园区里那座拱桥坡度 12–15 度，比真考场
+  [TEXT_BOX (17)] name='TextBox 51' pos=(5.12,4.57) size=(3.19x0.21)
+      text: 的 6.8 度陡一倍。用它做坡道项目，难度
+  [TEXT_BOX (17)] name='TextBox 52' pos=(5.12,4.80) size=(3.05x0.21)
+      text: 和手感都要重新标定 —— 这是个待定项。
+
+=== SLIDE 3 layout= Blank ===
+  [AUTO_SHAPE (1)] name='Rectangle 1' pos=(0.00,0.00) size=(10.00x5.62)
+  [TEXT_BOX (17)] name='TextBox 2' pos=(0.67,0.54) size=(6.60x0.39)
+      text: 考场现状：一座低多边形小城
+  [TEXT_BOX (17)] name='TextBox 3' pos=(0.67,0.97) size=(6.90x0.21)
+      text: 左为整圈路网俯瞰；右为编辑器里的场景搭建与玩家运行视图
+  [PICTURE (13)] name='Picture 4' pos=(0.70,1.40) size=(4.78x3.10)
+      picture: image.png (1282, 832)
+  [PICTURE (13)] name='Picture 5' pos=(5.83,1.40) size=(3.47x3.10)
+      picture: image.jpeg (1431, 1280)
+
+=== SLIDE 4 layout= Blank ===
+  [AUTO_SHAPE (1)] name='Rectangle 1' pos=(0.00,0.00) size=(10.00x5.62)
+  [TEXT_BOX (17)] name='TextBox 2' pos=(0.67,0.54) size=(3.10x0.39)
+      text: 入库不再「靠近就算过」
+  [TEXT_BOX (17)] name='TextBox 3' pos=(0.67,0.97) size=(5.47x0.21)
+      text: 原判定只比距离 4.5 米；现在四条同时满足、并保持 0.6 秒，才算入位
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 4' pos=(0.67,1.35) size=(2.04x1.38)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 5' pos=(2.88,1.35) size=(2.04x1.38)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 6' pos=(5.08,1.35) size=(2.04x1.38)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 7' pos=(7.29,1.35) size=(2.04x1.38)
+  [AUTO_SHAPE (1)] name='Rectangle 8' pos=(1.00,1.58) size=(0.46x0.25)
+  [AUTO_SHAPE (1)] name='Rectangle 9' pos=(1.08,1.67) size=(0.29x0.08)
+  [TEXT_BOX (17)] name='TextBox 10' pos=(1.69,1.61) size=(0.86x0.24)
+      text: 四角线内
+  [TEXT_BOX (17)] name='TextBox 11' pos=(1.00,2.00) size=(1.13x0.19)
+      text: 车身矩形四个角
+  [TEXT_BOX (17)] name='TextBox 12' pos=(1.00,2.21) size=(1.13x0.19)
+      text: 都在库位矩形内
+  [TEXT_BOX (17)] name='TextBox 13' pos=(1.00,2.47) size=(1.29x0.18)
+      text: 容差 0.05 m
+  [AUTO_SHAPE (1)] name='Rectangle 14' pos=(3.21,1.54) size=(0.48x0.31)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 15' pos=(3.25,1.58) size=(0.40x0.09)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 16' pos=(3.25,1.72) size=(0.40x0.09)
+  [TEXT_BOX (17)] name='TextBox 17' pos=(3.90,1.61) size=(0.86x0.24)
+      text: 车身摆正
+  [TEXT_BOX (17)] name='TextBox 18' pos=(3.21,2.00) size=(1.13x0.19)
+      text: 车身与库轴夹角
+  [TEXT_BOX (17)] name='TextBox 19' pos=(3.21,2.21) size=(1.13x0.19)
+      text: 不超过 8 度
+  [TEXT_BOX (17)] name='TextBox 20' pos=(3.21,2.47) size=(1.41x0.18)
+      text: 斜 10° 就判不过
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 21' pos=(5.42,1.69) size=(0.46x0.06)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 22' pos=(5.42,1.69) size=(0.10x0.06)
+  [TEXT_BOX (17)] name='TextBox 23' pos=(6.10,1.61) size=(0.70x0.24)
+      text: 已停稳
+  [TEXT_BOX (17)] name='TextBox 24' pos=(5.42,2.00) size=(0.86x0.19)
+      text: 速度不超过
+  [TEXT_BOX (17)] name='TextBox 25' pos=(5.42,2.21) size=(2.83x0.19)
+      text: 0.42 m/s（约 1.5 km/h）
+  [TEXT_BOX (17)] name='TextBox 26' pos=(5.42,2.47) size=(1.65x0.18)
+      text: 还要连续保持 0.6 秒
+  [TEXT_BOX (17)] name='TextBox 27' pos=(7.62,1.56) size=(0.51x0.45)
+      text: R
+  [TEXT_BOX (17)] name='TextBox 28' pos=(7.92,1.61) size=(0.86x0.24)
+      text: 挂过倒挡
+  [TEXT_BOX (17)] name='TextBox 29' pos=(7.62,2.00) size=(0.86x0.19)
+      text: 本项过程中
+  [TEXT_BOX (17)] name='TextBox 30' pos=(7.62,2.21) size=(1.26x0.19)
+      text: 至少按过一次 R
+  [TEXT_BOX (17)] name='TextBox 31' pos=(7.62,2.47) size=(1.53x0.18)
+      text: 挂过就锁定，退出也保留
+  [TEXT_BOX (17)] name='TextBox 32' pos=(0.67,3.03) size=(0.86x0.24)
+      text: 实测边界
+  [AUTO_SHAPE (1)] name='Rectangle 33' pos=(0.67,3.33) size=(4.38x0.31)
+  [TEXT_BOX (17)] name='TextBox 34' pos=(0.83,3.41) size=(0.47x0.19)
+      text: 场景
+  [TEXT_BOX (17)] name='TextBox 35' pos=(2.58,3.41) size=(0.47x0.19)
+      text: 结果
+  [TEXT_BOX (17)] name='TextBox 36' pos=(4.12,3.41) size=(0.47x0.19)
+      text: 余量
+  [AUTO_SHAPE (1)] name='Rectangle 37' pos=(0.67,3.65) size=(4.38x0.35)
+  [TEXT_BOX (17)] name='TextBox 38' pos=(0.83,3.74) size=(1.20x0.21)
+      text: 车身斜 8 度
+  [TEXT_BOX (17)] name='TextBox 39' pos=(2.58,3.74) size=(0.49x0.21)
+      text: 通过
+  [TEXT_BOX (17)] name='TextBox 40' pos=(4.12,3.74) size=(1.06x0.21)
+      text: 0.18 m
+  [AUTO_SHAPE (1)] name='Rectangle 41' pos=(0.67,4.00) size=(4.38x0.35)
+  [TEXT_BOX (17)] name='TextBox 42' pos=(0.83,4.09) size=(1.35x0.21)
+      text: 车身斜 10 度
+  [TEXT_BOX (17)] name='TextBox 43' pos=(2.58,4.09) size=(0.63x0.21)
+      text: 不通过
+  [TEXT_BOX (17)] name='TextBox 44' pos=(4.12,4.09) size=(1.06x0.21)
+      text: 0.11 m
+  [AUTO_SHAPE (1)] name='Rectangle 45' pos=(0.67,4.35) size=(4.38x0.35)
+  [TEXT_BOX (17)] name='TextBox 46' pos=(0.83,4.45) size=(1.49x0.21)
+      text: 车身偏 1.5 m
+  [TEXT_BOX (17)] name='TextBox 47' pos=(2.58,4.45) size=(0.63x0.21)
+      text: 不通过
+  [TEXT_BOX (17)] name='TextBox 48' pos=(4.12,4.45) size=(1.20x0.21)
+      text: −1.02 m
+  [AUTO_SHAPE (1)] name='Rectangle 49' pos=(0.67,4.71) size=(4.38x0.35)
+  [TEXT_BOX (17)] name='TextBox 50' pos=(0.83,4.80) size=(1.77x0.21)
+      text: 摆得完美，但没按过 R
+  [TEXT_BOX (17)] name='TextBox 51' pos=(2.58,4.80) size=(0.63x0.21)
+      text: 不通过
+  [TEXT_BOX (17)] name='TextBox 52' pos=(4.12,4.80) size=(0.78x0.21)
+      text: 三条满足
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 53' pos=(5.33,3.19) size=(4.00x1.88)
+  [AUTO_SHAPE (1)] name='Rectangle 54' pos=(5.33,3.19) size=(0.04x1.88)
+  [TEXT_BOX (17)] name='TextBox 55' pos=(5.62,3.38) size=(1.19x0.24)
+      text: 最关键的一条
+  [TEXT_BOX (17)] name='TextBox 56' pos=(5.62,3.76) size=(2.48x0.21)
+      text: 20 个用例全过。但真正说明判定
+  [TEXT_BOX (17)] name='TextBox 57' pos=(5.62,3.99) size=(2.34x0.21)
+      text: 生效的，是表格最后一行：车摆得
+  [TEXT_BOX (17)] name='TextBox 58' pos=(5.62,4.22) size=(2.20x0.21)
+      text: 完美，没按过倒挡，四条只满足
+  [TEXT_BOX (17)] name='TextBox 59' pos=(5.62,4.45) size=(1.49x0.21)
+      text: 三条，照样判不过。
+  [TEXT_BOX (17)] name='TextBox 60' pos=(5.62,4.78) size=(2.13x0.18)
+      text: 倒车入库与侧方停车共用同一套判定
+
+=== SLIDE 5 layout= Blank ===
+  [AUTO_SHAPE (1)] name='Rectangle 1' pos=(0.00,0.00) size=(10.00x5.62)
+  [TEXT_BOX (17)] name='TextBox 2' pos=(0.67,0.54) size=(2.57x0.39)
+      text: 一套代码，两种手柄
+  [TEXT_BOX (17)] name='TextBox 3' pos=(0.67,0.97) size=(4.05x0.21)
+      text: 数字键号不可能相同，能对齐的是「颜色 → 功能」这一层
+  [AUTO_SHAPE (1)] name='Rectangle 4' pos=(0.67,1.56) size=(8.67x0.54)
+  [TEXT_BOX (17)] name='TextBox 5' pos=(1.00,1.75) size=(0.54x0.24)
+      text: 功能
+  [TEXT_BOX (17)] name='TextBox 6' pos=(3.71,1.75) size=(1.03x0.24)
+      text: 外接四键板
+  [TEXT_BOX (17)] name='TextBox 7' pos=(6.75,1.75) size=(1.36x0.24)
+      text: Xbox 手柄
+  [AUTO_SHAPE (1)] name='Rectangle 8' pos=(0.67,2.10) size=(8.67x0.69)
+  [TEXT_BOX (17)] name='TextBox 9' pos=(1.00,2.34) size=(1.14x0.27)
+      text: 1 前进挡
+  [TEXT_BOX (17)] name='TextBox 10' pos=(3.71,2.34) size=(0.77x0.27)
+      text: 键 3
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 11' pos=(6.67,2.40) size=(0.19x0.19)
+  [TEXT_BOX (17)] name='TextBox 12' pos=(6.98,2.37) size=(0.42x0.27)
+      text: A
+  [AUTO_SHAPE (1)] name='Rectangle 13' pos=(0.67,2.79) size=(8.67x0.69)
+  [TEXT_BOX (17)] name='TextBox 14' pos=(1.00,3.03) size=(0.95x0.27)
+      text: R 倒挡
+  [TEXT_BOX (17)] name='TextBox 15' pos=(3.71,3.03) size=(0.77x0.27)
+      text: 键 9
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 16' pos=(6.67,3.08) size=(0.19x0.19)
+  [TEXT_BOX (17)] name='TextBox 17' pos=(6.98,3.06) size=(0.42x0.27)
+      text: B
+  [AUTO_SHAPE (1)] name='Rectangle 18' pos=(0.67,3.48) size=(8.67x0.69)
+  [TEXT_BOX (17)] name='TextBox 19' pos=(1.00,3.72) size=(0.58x0.27)
+      text: 手刹
+  [TEXT_BOX (17)] name='TextBox 20' pos=(3.71,3.72) size=(0.77x0.27)
+      text: 键 6
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 21' pos=(6.67,3.77) size=(0.19x0.19)
+  [TEXT_BOX (17)] name='TextBox 22' pos=(6.98,3.75) size=(0.42x0.27)
+      text: Y
+  [AUTO_SHAPE (1)] name='Rectangle 23' pos=(0.67,4.17) size=(8.67x0.69)
+  [TEXT_BOX (17)] name='TextBox 24' pos=(1.00,4.40) size=(0.77x0.27)
+      text: 切视角
+  [TEXT_BOX (17)] name='TextBox 25' pos=(3.71,4.40) size=(0.77x0.27)
+      text: 键 0
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 26' pos=(6.67,4.46) size=(0.19x0.19)
+  [TEXT_BOX (17)] name='TextBox 27' pos=(6.98,4.43) size=(0.42x0.27)
+      text: X
+
+=== SLIDE 6 layout= Blank ===
+  [AUTO_SHAPE (1)] name='Rectangle 1' pos=(0.00,0.00) size=(10.00x5.62)
+  [TEXT_BOX (17)] name='TextBox 2' pos=(0.67,0.54) size=(3.88x0.39)
+      text: 手柄适配：把模拟量翻译成驾驶
+  [TEXT_BOX (17)] name='TextBox 3' pos=(0.67,0.97) size=(4.76x0.21)
+      text: 一根摇杆两个轴，要同时扛住方向盘和油门刹车 —— 这中间有三道坎
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 4' pos=(0.67,1.42) size=(2.75x1.85)
+  [AUTO_SHAPE (1)] name='Rectangle 5' pos=(0.67,1.42) size=(0.04x1.85)
+  [AUTO_SHAPE (1)] name='Oval 6' pos=(0.85,1.58) size=(0.29x0.29)
+  [TEXT_BOX (17)] name='TextBox 7' pos=(0.84,1.62) size=(0.31x0.21)
+      text: 1
+  [TEXT_BOX (17)] name='TextBox 8' pos=(1.27,1.63) size=(0.86x0.24)
+      text: 中位漂移
+  [TEXT_BOX (17)] name='TextBox 9' pos=(0.92,2.00) size=(2.44x0.19)
+      text: PS2 摇杆的中位天生偏 10%，
+  [TEXT_BOX (17)] name='TextBox 10' pos=(0.92,2.23) size=(2.18x0.19)
+      text: 硬写 512 的话，手不碰也会
+  [TEXT_BOX (17)] name='TextBox 11' pos=(0.92,2.46) size=(1.13x0.19)
+      text: 一直往一边跑。
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 12' pos=(0.92,2.77) size=(2.25x0.35)
+  [TEXT_BOX (17)] name='TextBox 13' pos=(1.04,2.88) size=(2.73x0.18)
+      text: 上电采样 2 秒取均值，写进 EEPROM
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 14' pos=(3.62,1.42) size=(2.75x1.85)
+  [AUTO_SHAPE (1)] name='Rectangle 15' pos=(3.62,1.42) size=(0.04x1.85)
+  [AUTO_SHAPE (1)] name='Oval 16' pos=(3.81,1.58) size=(0.29x0.29)
+  [TEXT_BOX (17)] name='TextBox 17' pos=(3.80,1.62) size=(0.31x0.21)
+      text: 2
+  [TEXT_BOX (17)] name='TextBox 18' pos=(4.23,1.63) size=(1.19x0.24)
+      text: 斜推比正推小
+  [TEXT_BOX (17)] name='TextBox 19' pos=(3.88,2.00) size=(1.78x0.19)
+      text: 摇杆是个圆，斜着推对角，
+  [TEXT_BOX (17)] name='TextBox 20' pos=(3.88,2.23) size=(2.18x0.19)
+      text: 轴读数是 0.7 而不是 1。
+  [TEXT_BOX (17)] name='TextBox 21' pos=(3.88,2.46) size=(1.52x0.19)
+      text: 死区还会吞掉小角度。
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 22' pos=(3.88,2.77) size=(2.25x0.35)
+  [TEXT_BOX (17)] name='TextBox 23' pos=(4.00,2.88) size=(2.49x0.18)
+      text: 径向归一化 + 死区外重映射到 0–1
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 24' pos=(6.58,1.42) size=(2.75x1.85)
+  [AUTO_SHAPE (1)] name='Rectangle 25' pos=(6.58,1.42) size=(0.04x1.85)
+  [AUTO_SHAPE (1)] name='Oval 26' pos=(6.77,1.58) size=(0.29x0.29)
+  [TEXT_BOX (17)] name='TextBox 27' pos=(6.76,1.62) size=(0.31x0.21)
+      text: 3
+  [TEXT_BOX (17)] name='TextBox 28' pos=(7.19,1.63) size=(1.03x0.24)
+      text: 抖动与误触
+  [TEXT_BOX (17)] name='TextBox 29' pos=(6.83,2.00) size=(2.31x0.19)
+      text: 8 位 ADC 读数会跳，机械键
+  [TEXT_BOX (17)] name='TextBox 30' pos=(6.83,2.23) size=(1.52x0.19)
+      text: 按下也会弹跳几毫秒。
+  [TEXT_BOX (17)] name='TextBox 31' pos=(6.83,2.46) size=(1.39x0.19)
+      text: 直接读会一路火花。
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 32' pos=(6.83,2.77) size=(2.25x0.35)
+  [TEXT_BOX (17)] name='TextBox 33' pos=(6.96,2.88) size=(2.49x0.18)
+      text: 八点滑动平均 + 20 ms 按键去抖
+  [TEXT_BOX (17)] name='TextBox 34' pos=(0.67,3.51) size=(4.31x0.24)
+      text: 每个物理量都映射成一个游戏内变量，不是一个布尔事件
+  [AUTO_SHAPE (1)] name='Rectangle 35' pos=(0.67,3.81) size=(5.83x0.33)
+  [TEXT_BOX (17)] name='TextBox 36' pos=(0.88,3.91) size=(0.73x0.19)
+      text: 物理输入
+  [TEXT_BOX (17)] name='TextBox 37' pos=(2.25,3.91) size=(0.86x0.19)
+      text: 游戏内变量
+  [TEXT_BOX (17)] name='TextBox 38' pos=(3.92,3.91) size=(1.13x0.19)
+      text: 范围 / 状态
+  [AUTO_SHAPE (1)] name='Rectangle 39' pos=(0.67,4.15) size=(5.83x0.31)
+  [TEXT_BOX (17)] name='TextBox 40' pos=(0.88,4.23) size=(1.00x0.19)
+      text: 摇杆 X 轴
+  [TEXT_BOX (17)] name='TextBox 41' pos=(2.25,4.23) size=(0.60x0.19)
+      text: 转向角
+  [TEXT_BOX (17)] name='TextBox 42' pos=(3.92,4.23) size=(1.65x0.19)
+      text: −35° ~ +35°
+  [AUTO_SHAPE (1)] name='Rectangle 43' pos=(0.67,4.46) size=(5.83x0.31)
+  [TEXT_BOX (17)] name='TextBox 44' pos=(0.88,4.54) size=(1.00x0.19)
+      text: 摇杆 Y 轴
+  [TEXT_BOX (17)] name='TextBox 45' pos=(2.25,4.54) size=(1.13x0.19)
+      text: 油门 / 刹车
+  [TEXT_BOX (17)] name='TextBox 46' pos=(3.92,4.54) size=(2.05x0.19)
+      text: 0 ~ 1（同一根轴两头用）
+  [AUTO_SHAPE (1)] name='Rectangle 47' pos=(0.67,4.77) size=(5.83x0.31)
+  [TEXT_BOX (17)] name='TextBox 48' pos=(0.88,4.85) size=(0.73x0.19)
+      text: 四颗按键
+  [TEXT_BOX (17)] name='TextBox 49' pos=(2.25,4.85) size=(1.78x0.19)
+      text: 挡位 / 手刹 / 视角
+  [TEXT_BOX (17)] name='TextBox 50' pos=(3.92,4.85) size=(2.70x0.19)
+      text: R / N / 1 · 锁止 · 两档
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 51' pos=(6.75,3.81) size=(2.58x1.31)
+  [TEXT_BOX (17)] name='TextBox 52' pos=(7.02,3.98) size=(2.35x0.23)
+      text: 为什么用「变量」不用「事件」
+  [TEXT_BOX (17)] name='TextBox 53' pos=(7.02,4.29) size=(1.91x0.19)
+      text: 事件只知道「按了」，不知道
+  [TEXT_BOX (17)] name='TextBox 54' pos=(7.02,4.52) size=(1.91x0.19)
+      text: 「按到多深、保持了多久」。
+  [TEXT_BOX (17)] name='TextBox 55' pos=(7.02,4.77) size=(1.91x0.19)
+      text: 而科目二要的正是那个深度。
+
+=== SLIDE 7 layout= Blank ===
+  [AUTO_SHAPE (1)] name='Rectangle 1' pos=(0.00,0.00) size=(10.00x5.62)
+  [TEXT_BOX (17)] name='TextBox 2' pos=(0.67,0.54) size=(4.93x0.39)
+      text: 场景、操作与语音：支撑整场考试的三层
+  [TEXT_BOX (17)] name='TextBox 3' pos=(0.67,0.97) size=(3.62x0.21)
+      text: 从一座园区，到一辆开得动的教练车，再到每一句提示
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 4' pos=(0.67,1.52) size=(2.75x3.44)
+  [AUTO_SHAPE (1)] name='Rectangle 5' pos=(0.67,1.52) size=(2.75x0.04)
+  [TEXT_BOX (17)] name='TextBox 6' pos=(0.92,1.76) size=(0.58x0.27)
+      text: 场景
+  [AUTO_SHAPE (1)] name='Rectangle 7' pos=(0.92,2.08) size=(2.25x0.01)
+  [AUTO_SHAPE (1)] name='Oval 8' pos=(0.97,2.36) size=(0.06x0.06)
+  [TEXT_BOX (17)] name='TextBox 9' pos=(1.15,2.31) size=(1.35x0.21)
+      text: 拼出一座城市场景
+  [AUTO_SHAPE (1)] name='Oval 10' pos=(0.97,2.70) size=(0.06x0.06)
+  [TEXT_BOX (17)] name='TextBox 11' pos=(1.15,2.64) size=(1.91x0.21)
+      text: 道路 / 路口 / 拱桥
+  [AUTO_SHAPE (1)] name='Oval 12' pos=(0.97,3.03) size=(0.06x0.06)
+  [TEXT_BOX (17)] name='TextBox 13' pos=(1.15,2.98) size=(1.91x0.21)
+      text: 建筑 / 树木 / 路牌
+  [AUTO_SHAPE (1)] name='Oval 14' pos=(0.97,3.36) size=(0.06x0.06)
+  [TEXT_BOX (17)] name='TextBox 15' pos=(1.15,3.31) size=(1.35x0.21)
+      text: 锥桶与停放的车辆
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 16' pos=(0.92,3.77) size=(2.25x0.92)
+  [TEXT_BOX (17)] name='TextBox 17' pos=(1.04,3.89) size=(0.73x0.19)
+      text: 低多边形
+  [TEXT_BOX (17)] name='TextBox 18' pos=(1.04,4.12) size=(1.39x0.19)
+      text: 水泥灰地面、白线、
+  [TEXT_BOX (17)] name='TextBox 19' pos=(1.04,4.33) size=(1.78x0.19)
+      text: 黄黑反光锥 —— 和真实
+  [TEXT_BOX (17)] name='TextBox 20' pos=(1.04,4.54) size=(1.26x0.19)
+      text: 教练场同一个调子
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 21' pos=(3.62,1.52) size=(2.75x3.44)
+  [AUTO_SHAPE (1)] name='Rectangle 22' pos=(3.62,1.52) size=(2.75x0.04)
+  [TEXT_BOX (17)] name='TextBox 23' pos=(3.88,1.76) size=(0.58x0.27)
+      text: 操作
+  [AUTO_SHAPE (1)] name='Rectangle 24' pos=(3.88,2.08) size=(2.25x0.01)
+  [AUTO_SHAPE (1)] name='Oval 25' pos=(3.93,2.36) size=(0.06x0.06)
+  [TEXT_BOX (17)] name='TextBox 26' pos=(4.10,2.31) size=(1.35x0.21)
+      text: 运动学自行车模型
+  [AUTO_SHAPE (1)] name='Oval 27' pos=(3.93,2.70) size=(0.06x0.06)
+  [TEXT_BOX (17)] name='TextBox 28' pos=(4.10,2.64) size=(2.63x0.21)
+      text: 不依赖 WheelCollider
+  [AUTO_SHAPE (1)] name='Oval 29' pos=(3.93,3.03) size=(0.06x0.06)
+  [TEXT_BOX (17)] name='TextBox 30' pos=(4.10,2.98) size=(1.91x0.21)
+      text: 油门 / 刹车 / 手刹
+  [AUTO_SHAPE (1)] name='Oval 31' pos=(3.93,3.36) size=(0.06x0.06)
+  [TEXT_BOX (17)] name='TextBox 32' pos=(4.10,3.31) size=(1.91x0.21)
+      text: 三挡：R / N / 1
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 33' pos=(3.88,3.77) size=(2.25x0.92)
+  [TEXT_BOX (17)] name='TextBox 34' pos=(4.00,3.89) size=(2.70x0.19)
+      text: 为什么不用 WheelCollider
+  [TEXT_BOX (17)] name='TextBox 35' pos=(4.00,4.12) size=(1.65x0.19)
+      text: 它靠物理模拟，低速下会
+  [TEXT_BOX (17)] name='TextBox 36' pos=(4.00,4.33) size=(1.78x0.19)
+      text: 抖、会打滑。而科目二只有
+  [TEXT_BOX (17)] name='TextBox 37' pos=(4.00,4.54) size=(1.78x0.19)
+      text: 20 km/h，必须跟手
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 38' pos=(6.58,1.52) size=(2.75x3.44)
+  [AUTO_SHAPE (1)] name='Rectangle 39' pos=(6.58,1.52) size=(2.75x0.04)
+  [TEXT_BOX (17)] name='TextBox 40' pos=(6.83,1.76) size=(0.58x0.27)
+      text: 语音
+  [AUTO_SHAPE (1)] name='Rectangle 41' pos=(6.83,2.08) size=(2.25x0.01)
+  [AUTO_SHAPE (1)] name='Oval 42' pos=(6.89,2.36) size=(0.06x0.06)
+  [TEXT_BOX (17)] name='TextBox 43' pos=(7.06,2.31) size=(1.35x0.21)
+      text: 20 条语音引导
+  [AUTO_SHAPE (1)] name='Oval 44' pos=(6.89,2.70) size=(0.06x0.06)
+  [TEXT_BOX (17)] name='TextBox 45' pos=(7.06,2.64) size=(2.20x0.21)
+      text: 教学七步 + 五项 + 完成
+  [AUTO_SHAPE (1)] name='Oval 46' pos=(6.89,3.03) size=(0.06x0.06)
+  [TEXT_BOX (17)] name='TextBox 47' pos=(7.06,2.98) size=(1.35x0.21)
+      text: 10 种车辆音效
+  [AUTO_SHAPE (1)] name='Oval 48' pos=(6.89,3.36) size=(0.06x0.06)
+  [TEXT_BOX (17)] name='TextBox 49' pos=(7.06,3.31) size=(1.06x0.21)
+      text: 底部同步字幕
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 50' pos=(6.83,3.77) size=(2.25x0.92)
+  [TEXT_BOX (17)] name='TextBox 51' pos=(6.96,3.89) size=(1.39x0.19)
+      text: 运行期自建音频总线
+  [TEXT_BOX (17)] name='TextBox 52' pos=(6.96,4.12) size=(1.39x0.19)
+      text: 不往场景里挂组件，
+  [TEXT_BOX (17)] name='TextBox 53' pos=(6.96,4.33) size=(1.52x0.19)
+      text: 场景文件零改动，多人
+  [TEXT_BOX (17)] name='TextBox 54' pos=(6.96,4.54) size=(1.39x0.19)
+      text: 协作时不会互相覆盖
+
+=== SLIDE 8 layout= Blank ===
+  [AUTO_SHAPE (1)] name='Rectangle 1' pos=(0.00,0.00) size=(10.00x5.62)
+  [TEXT_BOX (17)] name='TextBox 2' pos=(0.67,0.54) size=(6.60x0.30)
+      text: 一局跑通的顺序：教学 → 五项 → 结算 → 再来一圈
+  [TEXT_BOX (17)] name='TextBox 3' pos=(0.67,0.97) size=(6.90x0.21)
+      text: 教学和考试在同一张地图上连着跑；跑完不跳回标题页，停在一张成绩单上
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 4' pos=(0.67,1.52) size=(1.95x1.36)
+  [AUTO_SHAPE (1)] name='Rectangle 5' pos=(0.67,1.52) size=(1.95x0.04)
+  [TEXT_BOX (17)] name='TextBox 6' pos=(0.87,1.66) size=(0.50x0.20)
+      text: 01
+  [TEXT_BOX (17)] name='TextBox 7' pos=(0.87,1.88) size=(1.61x0.22)
+      text: 按键教学 · 7 步
+  [TEXT_BOX (17)] name='TextBox 8' pos=(0.87,2.15) size=(1.63x0.62)
+      text: 挂挡 / 手刹 / 油门 / 方向 / 切视角 / 倒挡 / 复位，每一步都得真按出来才算过
+  [AUTO_SHAPE (1)] name='Isosceles Triangle 9' pos=(2.72,2.14) size=(0.08x0.08)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 10' pos=(2.90,1.52) size=(1.95x1.36)
+  [AUTO_SHAPE (1)] name='Rectangle 11' pos=(2.90,1.52) size=(1.95x0.04)
+  [TEXT_BOX (17)] name='TextBox 12' pos=(3.10,1.66) size=(0.50x0.20)
+      text: 02
+  [TEXT_BOX (17)] name='TextBox 13' pos=(3.10,1.88) size=(1.61x0.22)
+      text: 五项科目二
+  [TEXT_BOX (17)] name='TextBox 14' pos=(3.10,2.15) size=(1.63x0.62)
+      text: 倒库 → 侧方 → 坡道 → 直角 → 曲线，按顺序推进，每项到点停稳才放行
+  [AUTO_SHAPE (1)] name='Isosceles Triangle 15' pos=(4.95,2.14) size=(0.08x0.08)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 16' pos=(5.13,1.52) size=(1.95x1.36)
+  [AUTO_SHAPE (1)] name='Rectangle 17' pos=(5.13,1.52) size=(1.95x0.04)
+  [TEXT_BOX (17)] name='TextBox 18' pos=(5.33,1.66) size=(0.50x0.20)
+      text: 03
+  [TEXT_BOX (17)] name='TextBox 19' pos=(5.33,1.88) size=(1.61x0.22)
+      text: 结算成绩单
+  [TEXT_BOX (17)] name='TextBox 20' pos=(5.33,2.15) size=(1.63x0.62)
+      text: 用时、碰倒锥桶、复位次数，三行数字摊开，全屏压暗只留这张卡
+  [AUTO_SHAPE (1)] name='Isosceles Triangle 21' pos=(7.18,2.14) size=(0.08x0.08)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 22' pos=(7.36,1.52) size=(1.95x1.36)
+  [AUTO_SHAPE (1)] name='Rectangle 23' pos=(7.36,1.52) size=(1.95x0.04)
+  [TEXT_BOX (17)] name='TextBox 24' pos=(7.56,1.66) size=(0.50x0.20)
+      text: 04
+  [TEXT_BOX (17)] name='TextBox 25' pos=(7.56,1.88) size=(1.61x0.22)
+      text: 蓝键再来一圈
+  [TEXT_BOX (17)] name='TextBox 26' pos=(7.56,2.15) size=(1.63x0.62)
+      text: 结算态下同一个键从「回本项起点」变成「整圈重来」，不新增键位
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 27' pos=(0.67,3.10) size=(4.30x1.70)
+  [TEXT_BOX (17)] name='TextBox 28' pos=(0.92,3.26) size=(3.80x0.26)
+      text: 为什么教学和考试连着跑
+  [TEXT_BOX (17)] name='TextBox 29' pos=(0.92,3.54) size=(3.80x1.12)
+      text: 教学关和考场本来就是同一张地图、同一辆车。教学一结束，车直接放到考试起点接着跑——不重载场景，也不用等语音播完才把控制权交回来。
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 30' pos=(5.15,3.10) size=(4.18x1.70)
+  [TEXT_BOX (17)] name='TextBox 31' pos=(5.40,3.26) size=(3.60x0.26)
+      text: 四键没有第五个键可以用
+  [TEXT_BOX (17)] name='TextBox 32' pos=(5.40,3.54) size=(3.68x1.12)
+      text: 红倒挡、绿前进、黄手刹、蓝复位，四个功能已经把键位占满。所以进度不靠按键推进：到没到、停没停稳，交给位置和车速自动判定，玩家只负责开车。
+
+=== SLIDE 9 layout= Blank ===
+  [AUTO_SHAPE (1)] name='Rectangle 1' pos=(0.00,0.00) size=(10.00x5.62)
+  [TEXT_BOX (17)] name='TextBox 2' pos=(0.67,0.54) size=(6.60x0.30)
+      text: 结束不是黑屏：一张成绩单收尾
+  [TEXT_BOX (17)] name='TextBox 3' pos=(0.67,0.97) size=(6.90x0.21)
+      text: 跑完最后一项就冻结车辆，把这一圈的数字摊开给玩家看
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 4' pos=(0.67,1.52) size=(4.30x2.34)
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 5' pos=(1.05,1.70) size=(3.54x1.98)
+  [TEXT_BOX (17)] name='TextBox 6' pos=(1.35,1.86) size=(3.00x0.24)
+      text: 科目二完成 · 跑完一圈
+  [TEXT_BOX (17)] name='TextBox 7' pos=(1.35,2.20) size=(1.00x0.20)
+      text: 用时
+  [TEXT_BOX (17)] name='TextBox 8' pos=(1.35,2.20) size=(2.60x0.20)
+      text: 1:42.6
+  [TEXT_BOX (17)] name='TextBox 9' pos=(1.35,2.48) size=(1.00x0.20)
+      text: 碰倒锥桶
+  [TEXT_BOX (17)] name='TextBox 10' pos=(1.35,2.48) size=(2.60x0.20)
+      text: 2 个
+  [TEXT_BOX (17)] name='TextBox 11' pos=(1.35,2.76) size=(1.00x0.20)
+      text: 复位
+  [TEXT_BOX (17)] name='TextBox 12' pos=(1.35,2.76) size=(2.60x0.20)
+      text: 3 次
+  [TEXT_BOX (17)] name='TextBox 13' pos=(1.35,3.02) size=(2.90x0.20)
+      text: 按 蓝键（键盘退格）再来一圈
+  [TEXT_BOX (17)] name='TextBox 14' pos=(1.35,3.34) size=(2.90x0.18)
+      text: 本关到此结束
+  [TEXT_BOX (17)] name='TextBox 15' pos=(0.67,3.96) size=(4.30x0.40)
+      text: 结算页：全屏压暗 + 居中卡片，三行数据、一行按键提示，不再给别的选择
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 16' pos=(5.15,1.52) size=(4.18x1.06)
+  [AUTO_SHAPE (1)] name='Rectangle 17' pos=(5.15,1.52) size=(0.04x1.06)
+  [TEXT_BOX (17)] name='TextBox 18' pos=(5.38,1.65) size=(3.72x0.22)
+      text: 数字不新开一套统计
+  [TEXT_BOX (17)] name='TextBox 19' pos=(5.38,1.90) size=(3.70x0.60)
+      text: 锥桶来自 ConeKnock.Knocked 事件，复位次数在 ResetToStageStart 里加一，用时就是 BeginExam 到 Finish 的两个时间戳相减。
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 20' pos=(5.15,2.70) size=(4.18x1.06)
+  [AUTO_SHAPE (1)] name='Rectangle 21' pos=(5.15,2.70) size=(0.04x1.06)
+  [TEXT_BOX (17)] name='TextBox 22' pos=(5.38,2.83) size=(3.72x0.22)
+      text: 冻结 = 摘掉输入源
+  [TEXT_BOX (17)] name='TextBox 23' pos=(5.38,3.08) size=(3.70x0.60)
+      text: CarController.Update 第一行就是 if (_driving == null) return;，所以 SetDrivingInput(null) 等于踩死刹车：车纹丝不动，镜头和按键照常工作。
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 24' pos=(5.15,3.88) size=(4.18x1.06)
+  [AUTO_SHAPE (1)] name='Rectangle 25' pos=(5.15,3.88) size=(0.04x1.06)
+  [TEXT_BOX (17)] name='TextBox 26' pos=(5.38,4.01) size=(3.72x0.22)
+      text: 同一个键，两个语义
+  [TEXT_BOX (17)] name='TextBox 27' pos=(5.38,4.26) size=(3.70x0.60)
+      text: 结算态下蓝键不再是「回本项起点」，而是「整圈重来」——解冻、清计时、清计数、回到第一项，既不新增键位也不用玩家去找菜单。
+
+=== SLIDE 10 layout= Blank ===
+  [AUTO_SHAPE (1)] name='Rectangle 1' pos=(0.00,0.00) size=(10.00x5.62)
+  [TEXT_BOX (17)] name='TextBox 2' pos=(0.67,0.54) size=(6.60x0.30)
+      text: 怎么保证它不坏：两套 Play 模式自检
+  [TEXT_BOX (17)] name='TextBox 3' pos=(0.67,0.97) size=(6.90x0.21)
+      text: 在 batchmode 里真进 Play 跑一遍，出错就返回失败码——不靠人眼盯
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 4' pos=(0.67,1.52) size=(4.30x1.28)
+  [AUTO_SHAPE (1)] name='Rectangle 5' pos=(0.67,1.52) size=(0.04x1.28)
+  [TEXT_BOX (17)] name='TextBox 6' pos=(0.92,1.66) size=(3.80x0.22)
+      text: 音频自检 · AudioSmokeTest
+  [TEXT_BOX (17)] name='TextBox 7' pos=(0.92,1.92) size=(3.80x0.80)
+      text: 30 个音频资源逐个 Resources.Load，查是否非静音、时长是否够；进 Play 再确认总线已建、语音在播、车辆音效挂上，播放期错误 0 条才算 PASS。
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 8' pos=(0.67,2.92) size=(4.30x1.28)
+  [AUTO_SHAPE (1)] name='Rectangle 9' pos=(0.67,2.92) size=(0.04x1.28)
+  [TEXT_BOX (17)] name='TextBox 10' pos=(0.92,3.06) size=(3.80x0.22)
+      text: 流程自检 · FlowSmokeTest
+  [TEXT_BOX (17)] name='TextBox 11' pos=(0.92,3.32) size=(3.80x0.80)
+      text: 开考 → 复位 → 强制结算 → 再来一圈，四步逐项断言：车能不能开、冻结有没有生效、重来后是不是回到第一项起点。
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 12' pos=(5.15,1.52) size=(4.18x2.68)
+  [TEXT_BOX (17)] name='TextBox 13' pos=(5.40,1.72) size=(3.60x0.26)
+      text: 踩过的坑：域重载会把自检清空
+  [TEXT_BOX (17)] name='TextBox 14' pos=(5.40,2.02) size=(3.68x2.00)
+      text: 进 Play 会触发一次域重载，监视脚本的静态字段当场清空、挂在 update 上的委托也断了，自检就卡死在一句日志上，怎么等都不结束。 | 改成状态放进 SessionState、用 InitializeOnLoadMethod 重新挂 update，再加一条「3 秒帧号不动就判挂起」的看门狗，结果才稳定。 | 两套自检 + 一次 batchmode 编译（0 error / 0 warning）构成提交前的门禁。
+  [AUTO_SHAPE (1)] name='Rounded Rectangle 15' pos=(0.67,4.42) size=(8.66x0.68)
+  [TEXT_BOX (17)] name='TextBox 16' pos=(0.92,4.56) size=(8.20x0.44)
+      text: 另附两份文档：音频系统说明.md（key 表 · 触发点 · 重生成命令）　·　场景流程说明.md（一局流程 · 结束状态 · 自检命令）
+
+=== SLIDE 11 layout= Blank ===
+  [AUTO_SHAPE (1)] name='Rectangle 1' pos=(0.00,0.00) size=(10.00x5.62)
+  [AUTO_SHAPE (1)] name='Rectangle 2' pos=(0.67,0.75) size=(0.58x0.04)
+  [TEXT_BOX (17)] name='TextBox 3' pos=(0.67,1.06) size=(1.52x0.39)
+      text: 汇报到这里
+  [TEXT_BOX (17)] name='TextBox 4' pos=(0.67,1.78) size=(0.70x0.24)
+      text: 做完了
+  [AUTO_SHAPE (1)] name='Rectangle 5' pos=(0.67,2.06) size=(2.60x0.02)
+  [AUTO_SHAPE (1)] name='Rectangle 6' pos=(0.67,2.27) size=(0.03x0.15)
+  [TEXT_BOX (17)] name='TextBox 7' pos=(0.81,2.26) size=(1.77x0.21)
+      text: 五个考点在同一场景跑通
+  [AUTO_SHAPE (1)] name='Rectangle 8' pos=(0.67,2.67) size=(0.03x0.15)
+  [TEXT_BOX (17)] name='TextBox 9' pos=(0.81,2.65) size=(1.49x0.21)
+      text: 两项入库改成硬判定
+  [AUTO_SHAPE (1)] name='Rectangle 10' pos=(0.67,3.06) size=(0.03x0.15)
+  [TEXT_BOX (17)] name='TextBox 11' pos=(0.81,3.05) size=(2.20x0.21)
+      text: 手柄适配：三道坎 + 映射表
+  [AUTO_SHAPE (1)] name='Rectangle 12' pos=(0.67,3.46) size=(0.03x0.15)
+  [TEXT_BOX (17)] name='TextBox 13' pos=(0.81,3.45) size=(1.63x0.21)
+      text: 坡道从穿模到能真的爬
+  [TEXT_BOX (17)] name='TextBox 14' pos=(3.69,1.78) size=(0.70x0.24)
+      text: 验过了
+  [AUTO_SHAPE (1)] name='Rectangle 15' pos=(3.69,2.06) size=(2.60x0.02)
+  [AUTO_SHAPE (1)] name='Rectangle 16' pos=(3.69,2.27) size=(0.03x0.15)
+  [TEXT_BOX (17)] name='TextBox 17' pos=(3.83,2.26) size=(1.63x0.21)
+      text: 20 个库位判定用例
+  [AUTO_SHAPE (1)] name='Rectangle 18' pos=(3.69,2.67) size=(0.03x0.15)
+  [TEXT_BOX (17)] name='TextBox 19' pos=(3.83,2.65) size=(2.06x0.21)
+      text: Play 模式两项自动自检
+  [AUTO_SHAPE (1)] name='Rectangle 20' pos=(3.69,3.06) size=(0.03x0.15)
+  [TEXT_BOX (17)] name='TextBox 21' pos=(3.83,3.05) size=(1.35x0.21)
+      text: 编译零错误零警告
+  [AUTO_SHAPE (1)] name='Rectangle 22' pos=(3.69,3.46) size=(0.03x0.15)
+  [TEXT_BOX (17)] name='TextBox 23' pos=(3.83,3.45) size=(1.91x0.21)
+      text: 音频资源 30 个全通过
+  [TEXT_BOX (17)] name='TextBox 24' pos=(6.71,1.78) size=(0.70x0.24)
+      text: 还没定
+  [AUTO_SHAPE (1)] name='Rectangle 25' pos=(6.71,2.06) size=(2.60x0.02)
+  [AUTO_SHAPE (1)] name='Rectangle 26' pos=(6.71,2.27) size=(0.03x0.15)
+  [TEXT_BOX (17)] name='TextBox 27' pos=(6.85,2.26) size=(1.35x0.21)
+      text: 车头是否需要朝外
+  [AUTO_SHAPE (1)] name='Rectangle 28' pos=(6.71,2.67) size=(0.03x0.15)
+  [TEXT_BOX (17)] name='TextBox 29' pos=(6.85,2.65) size=(2.20x0.21)
+      text: 库宽 2.62 m 是否放宽
+  [AUTO_SHAPE (1)] name='Rectangle 30' pos=(6.71,3.06) size=(0.03x0.15)
+  [TEXT_BOX (17)] name='TextBox 31' pos=(6.85,3.05) size=(1.91x0.21)
+      text: 坡道 12–15 度偏陡
+  [AUTO_SHAPE (1)] name='Rectangle 32' pos=(6.71,3.46) size=(0.03x0.15)
+  [TEXT_BOX (17)] name='TextBox 33' pos=(6.85,3.45) size=(1.20x0.21)
+      text: 压线是否要判罚
+  [AUTO_SHAPE (1)] name='Rectangle 34' pos=(0.67,4.27) size=(8.67x0.01)
+  [TEXT_BOX (17)] name='TextBox 35' pos=(8.84,5.07) size=(0.49x0.21)
+      text: 谢谢
