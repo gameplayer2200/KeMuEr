@@ -102,6 +102,29 @@ def footnote(sl, y, text):
     txt(sl, 5.15, y, 4.18, 0.80, text, 8.5, MUTED, spacing=1.4)
 
 
+# ---------------- 分节页：这一轮做的事 ----------------
+def slide_divider():
+    sl = page("这一轮做的事：五件",
+              "从「手柄接不进来」到「跑出跑道能退回去」，下面五页逐条展开")
+    rows = [
+        ("01", "手柄接进引擎", "UPM 克隆失败，改成内嵌包；写探针问出真实键号 9 / 6 / 3 / 0；油门反向修正"),
+        ("02", "所有按键的绑定与调配", "四键板 / Xbox / 键盘三套输入对同一张功能表，长按 F1 现场重绑"),
+        ("03", "教学关重写", "去掉 A / B 路点，改成 6 步必须真的做出来的按键教学"),
+        ("04", "地图：碰撞与装饰", "树与路面补碰撞；按距离变换沿路撒 92 楼 / 151 树 / 77 灌木"),
+        ("05", "跑出跑道回退", "3 秒环形缓冲 + 向下探针，出界退回 3 秒前，不重开一局"),
+    ]
+    y = 1.46
+    for num, title, desc in rows:
+        txt(sl, 0.67, y + 0.02, 0.62, 0.30, num, 15, AMBER, True)
+        txt(sl, 1.34, y, 7.6, 0.28, title, 12.0, INK, True)
+        txt(sl, 1.34, y + 0.30, 7.7, 0.24, desc, 8.5, BODY)
+        rect(sl, 0.67, y + 0.60, 8.66, 0.008, BORDER)
+        y += 0.78
+    txt(sl, 0.67, 5.16, 8.66, 0.24,
+        "前五页是原来的汇报线（考点 / 入库判定 / 两套手柄）；这五页之后接着讲手柄适配、分层与一局流程。",
+        8.25, MUTED)
+
+
 # ---------------- A：手柄接进引擎 ----------------
 def slide_a():
     sl = page("手柄不是插上就能用：先把键号问出来",
@@ -160,18 +183,18 @@ def slide_b():
 
 # ---------------- C：教学关重写 ----------------
 def slide_c():
-    sl = page("教学关重写：从 A / B 路点到 7 步按键",
-              "把「会不会开」拆成 7 个必须真的做出来的动作")
+    sl = page("教学关重写：从 A / B 路点到 6 步按键",
+              "把「会不会开」拆成 6 个必须真的做出来的动作")
     card(sl, 0.67, 1.42, 4.28, 1.06, GREY, "旧机制：两个标记点",
          "车开进 A 点半径、再到 B 点半径就算过。\n它考的是「会不会开过去」，跟按键一个都没关系。")
-    card(sl, 0.67, 2.62, 4.28, 1.20, GREEN, "新机制：一张 7 步的步骤表",
-         "挂 1 档 → 松手刹 → 给油起步 → 打方向 → 切视角 → 挂倒挡 → 复位。\n每步都读真实状态：挡位、手刹、车速、转向角，做出来才放行。")
+    card(sl, 0.67, 2.62, 4.28, 1.20, GREEN, "新机制：一张 6 步的步骤表",
+         "挂 1 档 → 松手刹 → 给油起步 → 打方向 → 切视角 → 挂倒挡。\n每步都读真实状态：挡位、手刹、车速、转向角，做出来才放行。")
     card(sl, 0.67, 3.96, 4.28, 1.12, AMBER, "开局先难住你",
          "出生在空挡 + 手刹拉着：不挂 1 档、不松手刹，油门给到底车也不动。\n教学的第二步就是「把黄键按一下」。")
     bottom = code_image(sl, "code_steps.png", 5.15, 1.42, 4.18,
                         "TutorialDirector.Steps：标题、讲解、判定条件都写在表里，加一步就是加一条")
     footnote(sl, bottom + 0.14,
-             "复位的语义也跟着变：教学没做完按退格 = 本步重讲；\n做到最后一步按退格 = 整段教学重来，不新增键位。")
+             "卡住不会跳过：判定只读真实状态，按错键不往前跳；\nHUD 顶部一直停在这一步，直到动作真的做出来。")
 
 
 # ---------------- D：碰撞与装饰 ----------------
@@ -214,10 +237,11 @@ slide_b()
 slide_c()
 slide_d()
 slide_e()
+slide_divider()
 
 # ---- 重新排序 ----
 lst = list(prs.slides._sldIdLst)
-A, B, C, D, E = lst[11], lst[12], lst[13], lst[14], lst[15]
+A, B, C, D, E, DIV = lst[11], lst[12], lst[13], lst[14], lst[15], lst[16]
 
 
 def move(el, target):
@@ -225,11 +249,9 @@ def move(el, target):
     prs.slides._sldIdLst.insert(target, el)
 
 
-move(A, 5)
-move(B, 6)
-move(C, 11)
-move(D, 12)
-move(E, 13)
+# 我做的部分集中成一段：分节页 + A/B/C/D/E 连续放在原第 5 页之后
+for i, el in enumerate([DIV, A, B, C, D, E]):
+    move(el, 5 + i)
 
 # ---- 修正原第 5 页：Xbox 的「切视角」是 L3，不是 X（代码 buttonCamera = 8） ----
 s5 = prs.slides[4]
@@ -238,6 +260,30 @@ for sh in s5.shapes:
         for p in sh.text_frame.paragraphs:
             for r in p.runs:
                 r.text = "L3"
+
+# ---- 第 3 页：换成当前场景的真实截图 ----
+def fix_slide3():
+    s3 = prs.slides[2]
+    for sh in list(s3.shapes):
+        if sh.shape_type == 13:
+            sh._element.getparent().remove(sh._element)
+    s3.shapes.add_picture(os.path.join(IMG, "slide3_hero.png"),
+                          Inches(0.70), Inches(1.40), Inches(4.78), Inches(3.10))
+    s3.shapes.add_picture(os.path.join(IMG, "slide3_game.png"),
+                          Inches(5.83), Inches(1.40), Inches(3.47), Inches(1.95))
+    s3.shapes.add_picture(os.path.join(IMG, "slide3_scene.png"),
+                          Inches(5.83), Inches(3.45), Inches(3.47), Inches(1.05))
+    for sh in s3.shapes:
+        if sh.has_text_frame and sh.text_frame.text.startswith("左为整圈路网俯瞰"):
+            p0 = sh.text_frame.paragraphs[0]
+            if p0.runs:
+                p0.runs[0].text = "左为整圈路网俯瞰；右上为玩家视角的开局画面，右下为编辑器里的同一片场景"
+                for r in p0.runs[1:]:
+                    r.text = ""
+
+
+fix_slide3()
+
 
 prs.save(DST)
 print("saved", DST, "slides:", len(prs.slides))
