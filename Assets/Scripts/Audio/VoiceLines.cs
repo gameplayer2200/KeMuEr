@@ -10,39 +10,43 @@ using UnityEngine;
 /// </summary>
 public static class VoiceLines
 {
-    // ---- 第一关 · 教学 ----
+    // ---- 第一关 · 按键教学（6 步，对应 TutorialDirector.Steps）----
     public const string TutIntro = "tut_intro";
-    public const string TutReset = "tut_reset";
     public const string TutCone = "tut_cone";
     public const string TutDone = "tut_done";
+
+    /// <summary>教学第 index 步（0 基）的语音 key。</summary>
+    public static string TutorialStepKey(int index)
+    {
+        return "tut_s" + Mathf.Clamp(index + 1, 1, 6);
+    }
 
     // ---- 科目二 ----
     public const string Km2Start = "km2_start";
     public const string Km2Done = "km2_done";
-    public const string Km2Reset = "km2_reset";
 
     // ---- 通用 ----
     public const string ReverseWarn = "reverse_warn";
 
     static readonly Dictionary<string, string> Texts = new Dictionary<string, string>
     {
-        { TutIntro, "欢迎来到科目二考场。第一关，教学。请从 A 点出发，按提示开到 B 点并停稳。" },
-        { "tut_wp1", "起步直行。" },
-        { "tut_wp2", "前方路口，右转。" },
-        { "tut_wp3", "沿横路直行。" },
-        { "tut_wp4", "到达 B 点，请停稳。" },
-        { TutDone, "第一关完成。" },
+        { TutIntro, "欢迎来到科目二考场。先跟着屏幕左上角的提示，把摇杆和四个按键认一遍。" },
+        { "tut_s1", "第一步，挂前进挡。按绿色按键。" },
+        { "tut_s2", "第二步，松手刹。按黄色按键。" },
+        { "tut_s3", "第三步，给油。把摇杆轻轻向前推。" },
+        { "tut_s4", "第四步，打方向。摇杆向左向右推。" },
+        { "tut_s5", "第五步，切视角。按蓝色按键。" },
+        { "tut_s6", "第六步，挂倒挡。先停稳，再按红色按键。" },
+        { TutDone, "按键教学完成。直接上场考试。" },
         { TutCone, "碰倒了锥桶。教学关不扣分，正式考试扣十分。" },
-        { TutReset, "已回到 A 点，请重新出发。" },
 
-        { Km2Start, "科目二考试开始。" },
+        { Km2Start, "科目二考试开始。第一项，倒车入库。" },
         { "km2_s1", "第一项，倒车入库。请把车开到库前停止线，挂倒挡，倒入右侧库位，车身摆正后停稳。" },
         { "km2_s2", "第二项，侧方停车。请把车开过车位，挂倒挡，倒入车位停稳。" },
         { "km2_s3", "第三项，坡道定点停车和起步。请上坡，在前方停车线停稳，再起步下坡。" },
         { "km2_s4", "第四项，直角转弯。请减速，沿内侧通过直角弯。" },
         { "km2_s5", "第五项，曲线行驶。请保持低速，沿曲线通过。" },
-        { Km2Done, "科目二路线走完。考试结束。" },
-        { Km2Reset, "已回到本项起点。" },
+        { Km2Done, "科目二完成，这一圈跑完了。" },
 
         { ReverseWarn, "倒车，请注意。" },
     };

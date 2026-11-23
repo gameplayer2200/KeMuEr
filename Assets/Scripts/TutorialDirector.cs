@@ -4,8 +4,9 @@ using UnityEngine;
 /// 第一关 · 按键教学。
 ///
 /// 不再考"从 A 点开到 B 点"，而是把摇杆和四个按键逐个讲一遍：
-/// 挂挡 → 手刹 → 油门 → 方向 → 切视角 → 倒挡 → 复位。
+/// 挂挡 → 手刹 → 油门 → 方向 → 切视角 → 倒挡。
 /// 每一步等玩家真的做出这个动作才进入下一步，只提示、不判罚。
+/// 讲完自动把车交给科目二。
 /// </summary>
 public class TutorialDirector : MonoBehaviour
 {
@@ -14,9 +15,6 @@ public class TutorialDirector : MonoBehaviour
 
     public CarController car;
     public Transform startPoint;
-
-    [Tooltip("已废弃：回起点改由 CarInput 统一处理。保留字段只为兼容旧场景。")]
-    public KeyCode resetKey = KeyCode.Backspace;
 
     /// <summary>教学是否已经跑完。</summary>
     public bool IsComplete { get { return _done; } }
@@ -47,8 +45,6 @@ public class TutorialDirector : MonoBehaviour
             "按蓝色按键（键 0）在「跟车视角 / 俯视视角」之间切换，键盘 Q 也行。"),
         new LessonStep("倒挡 · 红键",
             "先停稳，再按红色按键（键 9）或键盘 R = 挂 R 挡倒车。\n车速快的时候挂不进倒挡。"),
-        new LessonStep("复位 · 退格键",
-            "按键盘退格 = 车回到起点、本关从头再讲一遍。\n手柄上不占按键（蓝键已经用来切视角了）。"),
     };
 
     CarInput _input;
@@ -97,11 +93,6 @@ public class TutorialDirector : MonoBehaviour
             case CarAction.Drive: _sawDrive = true; break;
             case CarAction.Reverse: _sawReverse = true; break;
             case CarAction.Camera: _sawCamera = true; break;
-            case CarAction.Reset:
-                if (_done) Restart();                       // 完成后再按 = 再学一遍
-                else if (_step >= Steps.Length - 1) Next(); // 最后一步本身就是"复位"
-                else Restart();                             // 中途按 = 回起点重来
-                break;
         }
     }
 
@@ -109,6 +100,8 @@ public class TutorialDirector : MonoBehaviour
     {
         _step = 0;
         ShowToast("跟着左上角的提示，把每个按键都按一遍");
+        AudioDirector.Say(VoiceLines.TutIntro);
+        AudioDirector.Say(VoiceLines.TutorialStepKey(0));
     }
 
     void OnConeKnocked(ConeKnock cone)
@@ -168,9 +161,6 @@ public class TutorialDirector : MonoBehaviour
             case 5: // 倒挡
                 if (_sawReverse && car.Gear == DriveGear.Reverse) Next();
                 break;
-
-            case 6: // 复位（Reset 在 OnCarAction 里处理）
-                break;
         }
     }
 
@@ -185,13 +175,14 @@ public class TutorialDirector : MonoBehaviour
         if (_step >= Steps.Length)
         {
             _done = true;
-            ShowToast("教学完成！按键都认识了，接下来上场考试");
+            ShowToast("教学完成！按键都认识了，接下来跑一圈：1 倒车入库");
             AudioDirector.Say(VoiceLines.TutDone);
             if (Completed != null) Completed();
         }
         else
         {
             ShowToast("✓ 这一步过了：" + Steps[_step - 1].title);
+            AudioDirector.Say(VoiceLines.TutorialStepKey(_step));
         }
     }
 
@@ -208,7 +199,7 @@ public class TutorialDirector : MonoBehaviour
         if (startPoint != null && car != null)
             car.ResetToPose(startPoint.position, startPoint.rotation);
         ShowToast("已回到起点，按键教学从头开始");
-        AudioDirector.SayNow(VoiceLines.TutReset);
+        AudioDirector.SayNow(VoiceLines.TutIntro);
     }
 
     /// <summary>选关菜单跳回第一关时调用：重置教学流程并把车放回起点。</summary>
@@ -285,7 +276,7 @@ public class TutorialDirector : MonoBehaviour
         if (_done)
         {
             header = "按键教学 · 完成";
-            body = "摇杆和四个按键都认识了。\n按 退格 可以再学一遍，或者直接上场考试。";
+            body = "摇杆和四个按键都认识了。\n直接上场考试吧。";
         }
         else
         {

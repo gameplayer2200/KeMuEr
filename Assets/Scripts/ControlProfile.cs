@@ -19,7 +19,6 @@ public class ProfileData
     public int buttonDrive;         // 绿 → 1 档
     public int buttonReverse;       // 红 → R 档
     public int buttonHandbrake;     // 黄 → 手刹
-    public int buttonReset;         // 蓝 → 复位（科目二回当前科目起点）
     public int buttonCamera;        // 摇杆下压 → 切视角
     public bool invertThrottle;
     public bool invertSteer;
@@ -32,10 +31,10 @@ public class ProfileData
 /// 配置图（俯视 160×90mm）的 5 个输入元件与标准手柄的一一对应：
 ///   ①X 轴 → 方向盘      → 左摇杆左右
 ///   ②Y 轴 → 油门/刹车   → 左摇杆上下（Xbox 上推为负，需要反向）
-///   ③摇杆下压 → 切视角  → L3（左摇杆按下）
+///   ③摇杆下压 → （未用） → L3（左摇杆按下）
 ///   ⑥绿键 → 1 档        → A
 ///   ④红键 → R 档        → B
-///   ⑦蓝键 → 复位        → X
+///   ⑦蓝键 → 切视角      → X
 ///   ⑤黄键 → 手刹        → Y
 /// 颜色正好对上 Xbox 的 A绿 / B红 / X蓝 / Y黄，所以这不是硬凑，是把自制板的配色逻辑搬到标准手柄上。
 /// </summary>
@@ -63,11 +62,10 @@ public static class ControlProfiles
             buttonDrive = 0,      // A 绿
             buttonReverse = 1,    // B 红
             buttonHandbrake = 3,  // Y 黄
-            buttonReset = 2,      // X 蓝 → 复位
-            buttonCamera = 8,     // L3 左摇杆按下
+            buttonCamera = 2,     // X 蓝 → 切视角
             invertThrottle = true,   // Windows 下 Xbox 左摇杆上推为负值，必须反向
             invertSteer = false,
-            note = "A=1档 B=R档 Y=手刹 X=复位 L3=切视角（与纸板五个输入严格一一对应）"
+            note = "A=1档 B=R档 Y=手刹 X=切视角"
         };
     }
 
@@ -82,7 +80,6 @@ public static class ControlProfiles
             buttonDrive = 1,      // 绿
             buttonReverse = 0,    // 红
             buttonHandbrake = 2,  // 黄
-            buttonReset = 3,      // 蓝 → 复位
             buttonCamera = 4,     // 摇杆下压
             invertThrottle = false,
             invertSteer = false,
@@ -95,7 +92,6 @@ public static class ControlProfiles
     /// 实测按 红 → 黄 → 绿 → 蓝 的顺序按下，Console 依次收到 9 / 6 / 3 / 0，
     /// 所以接线是「蓝最小、红最大」，与配置图上的编号顺序相反：
     ///   红=9 → R 档，黄=6 → 手刹，绿=3 → 1 档，蓝=0 → 切视角。
-    /// 复位不占实体键，留键盘 退格。
     /// </summary>
     static ProfileData External4()
     {
@@ -107,11 +103,10 @@ public static class ControlProfiles
             buttonDrive = 3,      // 绿 → 1 档
             buttonReverse = 9,    // 红 → R 档
             buttonHandbrake = 6,  // 黄 → 手刹
-            buttonReset = -1,     // 复位不占实体键，留键盘 退格
             buttonCamera = 0,     // 蓝 → 切视角
             invertThrottle = true,   // 通用 USB 摇杆上推为负值（实测推=刹车），必须反向
             invertSteer = false,
-            note = "键 9=倒挡 键 6=手刹 键 3=前进挡 键 0=切视角；复位不占键（退格）；对不上就长按 F1 扫描重绑"
+            note = "键 9=倒挡 键 6=手刹 键 3=前进挡 键 0=切视角；对不上就长按 F1 扫描重绑"
         };
     }
 
@@ -161,7 +156,6 @@ public static class ControlProfiles
         input.buttonDrive = data.buttonDrive;
         input.buttonReverse = data.buttonReverse;
         input.buttonHandbrake = data.buttonHandbrake;
-        input.buttonReset = data.buttonReset;
         input.buttonCamera = data.buttonCamera;
         input.invertThrottle = data.invertThrottle;
         input.invertSteer = data.invertSteer;

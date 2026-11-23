@@ -24,10 +24,10 @@ public static class AudioSmokeTest
     // 必须和 VoiceLines 里的 key 一一对应
     static readonly string[] VoiceKeys =
     {
-        "tut_intro", "tut_wp1", "tut_wp2", "tut_wp3", "tut_wp4",
-        "tut_done", "tut_cone", "tut_reset",
+        "tut_intro", "tut_s1", "tut_s2", "tut_s3", "tut_s4", "tut_s5", "tut_s6",
+        "tut_done", "tut_cone",
         "km2_start", "km2_s1", "km2_s2", "km2_s3", "km2_s4", "km2_s5",
-        "km2_done", "km2_reset", "reverse_warn",
+        "km2_done", "reverse_warn",
     };
 
     static readonly string[] SfxKeys =

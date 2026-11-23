@@ -6,8 +6,7 @@ public enum CarAction
     Reverse = 0,    // 倒挡 R
     Drive = 1,      // 前进挡 1
     Handbrake = 2,  // 手刹（开关式）
-    Reset = 3,      // 复位（回 A 点 / 科目二回当前科目起点）
-    Camera = 4      // 切换视角
+    Camera = 3      // 切换视角
 }
 
 /// <summary>
@@ -25,7 +24,6 @@ public static class CarInputMap
             case CarAction.Reverse: return "倒挡";
             case CarAction.Drive: return "前进挡";
             case CarAction.Handbrake: return "手刹";
-            case CarAction.Reset: return "复位";
             case CarAction.Camera: return "切视角";
         }
         return a.ToString();
@@ -38,7 +36,6 @@ public static class CarInputMap
             case CarAction.Reverse: return "R";
             case CarAction.Drive: return "1";
             case CarAction.Handbrake: return "空格/G";
-            case CarAction.Reset: return "退格";
             case CarAction.Camera: return "Q";
         }
         return "-";
@@ -64,7 +61,6 @@ public static class CarInputMap
             "键盘 " + KeyLabel(CarAction.Drive) + " / 手柄" + JoyLabel(input, CarAction.Drive) + " = 前进挡        " +
             "键盘 " + KeyLabel(CarAction.Reverse) + " / 手柄" + JoyLabel(input, CarAction.Reverse) + " = 倒挡\n" +
             "键盘 " + KeyLabel(CarAction.Handbrake) + " / 手柄" + JoyLabel(input, CarAction.Handbrake) + " = 手刹        " +
-            "键盘 " + KeyLabel(CarAction.Reset) + " / 手柄" + JoyLabel(input, CarAction.Reset) + " = 复位\n" +
             "键盘 " + KeyLabel(CarAction.Camera) + " / 手柄" + JoyLabel(input, CarAction.Camera) + " = 切视角";
     }
 }

@@ -137,7 +137,7 @@ public class AudioDirector : MonoBehaviour
         if (d != null) d.Enqueue(key);
     }
 
-    /// <summary>立即打断并播这条语音（复位、碰撞提示这类需要马上听到的）。</summary>
+    /// <summary>立即打断并播这条语音（碰撞提示这类需要马上听到的）。</summary>
     public static void SayNow(string key)
     {
         if (string.IsNullOrEmpty(key)) return;
@@ -159,7 +159,7 @@ public class AudioDirector : MonoBehaviour
         _queue.Enqueue(key);
         if (_queue.Count > 4)
         {
-            // 队列堆积（比如反复复位）时丢弃最旧的，别让提示延迟太久
+            // 队列堆积（比如连续撞锥桶）时丢弃最旧的，别让提示延迟太久
             _queue.Dequeue();
         }
     }
